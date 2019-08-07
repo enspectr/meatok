@@ -6,9 +6,9 @@ const CACHE_NAME = 'static-cache-v0';
 const FILES_TO_CACHE = [
 	'index.html',
 	'manifest.json',
+	'service-worker.js',
 	'css/styles.css',
 	'scripts/app.js',
-	'scripts/service-worker.js',
 	'images/icons/icon-32x32.png',
 	'images/icons/icon-128x128.png',
 	'images/icons/icon-144x144.png',
@@ -24,7 +24,7 @@ self.addEventListener('install', (evt) => {
   evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[ServiceWorker] Pre-caching offline page');
-      //return cache.addAll(FILES_TO_CACHE);
+      return cache.addAll(FILES_TO_CACHE);
     })
   );
   self.skipWaiting();
