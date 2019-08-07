@@ -49,13 +49,18 @@ self.addEventListener('activate', (evt) => {
 self.addEventListener('fetch', (evt) => {
   evt.respondWith(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(evt.request).then((response) => {
+      return cache.match(evt.request).then((cached) => {
         var fetchPromise = fetch(evt.request).then((networkResponse) => {
-          console.log('[ServiceWorker] Updating', evt.request);
+          console.log('[ServiceWorker] Updating', evt.request.url);
           cache.put(evt.request, networkResponse.clone());
           return networkResponse;
         })
-        return response || fetchPromise;
+        if (cached) {
+          console.log('[ServiceWorker] Fetch cached', evt.request.url);
+          return cached;
+        }
+        console.log('[ServiceWorker] Fetch remote', evt.request.url);
+        return fetchPromise;
       })
     })
   );
