@@ -18,5 +18,16 @@
   <h1>Test</h1>
   
   <script src="scripts/app.js"></script>
+  <script>
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('scripts/service-worker.js')
+          .then((reg) => {
+            console.log('Service worker registered.', reg);
+          });
+      });
+    }
+  </script>
 </body>
 </html>
