@@ -1,7 +1,7 @@
 'use strict';
 
 // Update cache names any time any of the cached files change.
-const CACHE_NAME = 'static-cache-v0';
+const CACHE_NAME = 'static-cache-v1';
 
 const FILES_TO_CACHE = [
 	'index.html',
@@ -54,19 +54,21 @@ self.addEventListener('activate', (evt) => {
 self.addEventListener('fetch', (evt) => {
   evt.respondWith(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(evt.request).then((cached) => {
-        var fetchPromise = fetch(evt.request).then((networkResponse) => {
-          console.log('[ServiceWorker] Updating', evt.request.url);
-          cache.put(evt.request, networkResponse.clone());
-          return networkResponse;
-        })
-        if (cached) {
-          console.log('[ServiceWorker] Fetch cached', evt.request.url);
-          return cached;
+      return cache.match(evt.request).then(
+        (cached) => {
+          if (cached) {
+            console.log('[ServiceWorker] Fetch cached', evt.request.url);
+            fetch(evt.request).then((networkResponse) => {
+              console.log('[ServiceWorker] Updating', evt.request.url);
+              cache.put(evt.request, networkResponse);
+            });
+            return cached;
+          } else {
+            console.log('[ServiceWorker] Fetch remote', evt.request.url);
+            return fetch(evt.request);
+          }
         }
-        console.log('[ServiceWorker] Fetch remote', evt.request.url);
-        return fetchPromise;
-      })
+      );
     })
   );
 });
