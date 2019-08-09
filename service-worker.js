@@ -16,6 +16,11 @@ const FILES_TO_CACHE = [
 	'images/icons/icon-192x192.png',
 	'images/icons/icon-256x256.png',
 	'images/icons/icon-512x512.png',
+	'images/icons/icon-bluetooth.png',
+	'images/icons/icon-bluetooth-connected.png',
+	'images/icons/icon-share.png',
+	'images/icons/icon-start.png',
+	'images/icons/icon-stop.png',
 ];
 
 self.addEventListener('install', (evt) => {
