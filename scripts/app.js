@@ -80,7 +80,7 @@ function onDisconnection(event)
 }
 
 function onValueChanged(event) {
-    const value = new TextDecoder().decode(event.target.value);
+    const value = new TextDecoder().decode(event.target.value).trim();
     console.log("New value: " + value);
     setResultText(value);
 }
