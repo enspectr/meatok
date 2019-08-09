@@ -10,3 +10,7 @@ body {
 	float: right;
 }
 
+.result {
+	color: white;
+	font-size: x-large;
+}
