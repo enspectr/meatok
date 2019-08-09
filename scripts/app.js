@@ -17,12 +17,12 @@ connect_btn.onclick = onConnect;
 
 setResultText("no data");
 
-function setResultText(str)
+function setResultText(msg)
 {
-	last_result.innerHTML = str;
+	last_result.innerHTML = msg;
 }
 
-function getResultText(str)
+function getResultText()
 {
 	return last_result.innerHTML;
 }
@@ -54,11 +54,13 @@ function connectTo(device)
 				setResultText('connected');
 	        },
 	        (err) => {
-	        	console.log('Failed to subscribe to ' + device.name, err);
+	        	console.log('Failed to subscribe to ' + device.name + ':', err.message);
 	        }
         );
 	})
-	.catch((err) => {console.log('Failed to connect to ' + device.name, err);});
+	.catch((err) => {
+		console.log('Failed to connect to ' + device.name + ':', err.message);
+	});
 }
 
 function onConnect()
@@ -80,7 +82,12 @@ function onDisconnection(event)
 }
 
 function onValueChanged(event) {
-    const value = new TextDecoder().decode(event.target.value).trim();
-    console.log("New value: " + value);
-    setResultText(value);
+	var msg = '';
+	for (const c of event.target.value) {
+		if (c == 0)
+			break;
+		msg += String.fromCharCode(c);
+	}
+    console.log("New value: " + msg);
+    setResultText("'" + msg + "'");
 }
