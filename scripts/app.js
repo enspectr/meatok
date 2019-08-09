@@ -83,7 +83,9 @@ function onDisconnection(event)
 
 function onValueChanged(event) {
 	var msg = '';
-	for (const c of event.target.value) {
+	var value = event.target.value;
+	for (var i = 0; i < value.byteLength; i++) {
+		const c = value.getUint8(i);
 		if (c == 0)
 			break;
 		msg += String.fromCharCode(c);
