@@ -180,9 +180,9 @@ function showMeterScale()
 {
 	var ctx = meter.getContext('2d');
 	var grd = ctx.createLinearGradient(0, 0, meter_width, 0);
-	grd.addColorStop(0, 'blue');
-	grd.addColorStop(meter_f, 'rgb(255, 150, 0)');
-	grd.addColorStop(1, 'green');
+	grd.addColorStop(0,       'rgb(32, 32, 255)');
+	grd.addColorStop(meter_f, 'rgb(255, 160, 0)');
+	grd.addColorStop(1,       'rgb(32, 255, 32)');
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, meter_margin, meter_width, meter_hscale);
 
