@@ -3,7 +3,12 @@ body {
 }
 
 .toolbox-btn {
+	border: 0 none;
 	margin: 2%;
+}
+
+:focus {
+    outline: 0;
 }
 
 #bluetooth-btn {
