@@ -1,5 +1,7 @@
 'use strict';
 
+(() => {
+
 const share_btn   = document.getElementById("share-btn");
 const connect_btn = document.getElementById("bluetooth-btn");
 const bt_info     = document.getElementById("bluetooth-info");
@@ -149,3 +151,5 @@ function onValueChanged(event) {
     console.log("New value: " + msg);
     setBTInfo(msg); // Debug
 }
+
+})();
