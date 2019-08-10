@@ -72,6 +72,7 @@ function connectTo(device)
 
 	disconnectBT();
 	setBTInfo(device.name);
+	bt_device_ = device;
 
 	device.gatt.connect().
 	then((server) => {
@@ -116,7 +117,6 @@ function onConnect()
 		filters: [{services: [bt_svc_id]}],
 	}).
 	then((device) => {
-		bt_device_ = device;
 		connectTo(device);
 	})
 	.catch((err) => {console.log('No bluetooth device selected:', err);});
