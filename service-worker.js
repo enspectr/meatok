@@ -19,7 +19,6 @@ const FILES_TO_CACHE = [
 	'images/icons/icon-bluetooth.png',
 	'images/icons/icon-bluetooth-connected.png',
 	'images/icons/icon-share.png',
-	'images/icons/icon-start.png',
 	'images/icons/icon-stop.png',
 ];
 
