@@ -49,3 +49,16 @@ body {
 	margin: 0;
 	border: 0 none;
 }
+
+.meter-label {
+	font-size: x-large;
+}
+
+#label-frozen {
+	color: #2020ff;
+}
+
+#label-fresh {
+	color: #20ff20;
+	float: right;
+}
