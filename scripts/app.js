@@ -68,7 +68,7 @@ function onShare()
 
 function connectTo(device)
 {
-	console.log('Connecting to ' + device.name);
+	console.log(device.name, 'connecting ...');
 
 	disconnectBT();
 	setBTInfo(device.name);
@@ -117,9 +117,11 @@ function onConnect()
 		filters: [{services: [bt_svc_id]}],
 	}).
 	then((device) => {
-		connectTo(device);
+		console.log(device.name, 'selected');
+		if (device !== bt_device)
+			connectTo(device);
 	})
-	.catch((err) => {console.log('No bluetooth device selected:', err);});
+	.catch((err) => {console.log('No bluetooth device selected');});
 }
 
 function onDisconnection(event)
