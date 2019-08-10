@@ -219,12 +219,12 @@ function initPage()
 {
 	initMeter();
 	showMeterScale();
-	showMeterResultRect(-.05, .05); // Test
+	showMeterResultRect(-5, 10); // Test
 }
 
 function onFinish()
 {
-	showMeterResult(-5, 10); // Test
+	showMeterResult(-.05, .05); // Test
 }
 
 })();
