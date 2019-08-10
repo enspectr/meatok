@@ -11,6 +11,10 @@ var bt_device_ = null;
 var bt_device  = null;
 var bt_char    = null;
 
+if (!navigator.bluetooth) {
+	document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
+}
+
 if (navigator.share) {
 	share_btn.onclick = onShare;
 } else {
