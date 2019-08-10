@@ -38,3 +38,14 @@ body {
 	font-size: xx-large;
 	margin: 10%;
 }
+
+#meter {
+	margin: 2%;
+}
+
+#meter-canvas {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border: 0 none;
+}

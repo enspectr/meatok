@@ -4,10 +4,21 @@
 
 const share_btn   = document.getElementById("share-btn");
 const connect_btn = document.getElementById("bluetooth-btn");
+const finish_btn  = document.getElementById("finish-btn");
 const bt_info     = document.getElementById("bluetooth-info");
+const meter       = document.getElementById("meter-canvas");
 
-const bt_svc_id  = 0xFFE0;
-const bt_char_id = 0xFFE1;
+const meter_h       = .3;   // aspect ratio
+const meter_width   = 1000; // virtula width
+const meter_height  = meter_width * meter_h;
+const meter_f       = .25;  // the frozen part of the scale
+const meter_v       = .1    // the vertical margins
+const meter_margin  = meter_v * meter_height;
+const meter_hscale  = meter_height - 2 * meter_margin;
+const meter_line    = 8;    // marker line in virtual units
+
+const bt_svc_id     = 0xFFE0;
+const bt_char_id    = 0xFFE1;
 
 var bt_device_ = null;
 var bt_device  = null;
@@ -24,6 +35,9 @@ if (navigator.share) {
 }
 
 connect_btn.onclick = onConnect;
+finish_btn.onclick  = onFinish;
+
+initPage();
 
 function setBTInfo(msg)
 {
@@ -150,6 +164,67 @@ function onValueChanged(event) {
 	}
     console.log("New value: " + msg);
     setBTInfo(msg); // Debug
+}
+
+function initMeter()
+{
+	var rect = meter.getBoundingClientRect();
+	var avail_width  = document.documentElement.clientWidth  - 2 * rect.left;
+	meter.style.width  = avail_width;
+	meter.style.height = (meter_h * avail_width).toString() + "px";
+	meter.width = meter_width;
+	meter.height = meter_height;
+}
+
+function showMeterScale()
+{
+	var ctx = meter.getContext('2d');
+	var grd = ctx.createLinearGradient(0, 0, meter_width, 0);
+	grd.addColorStop(0, 'blue');
+	grd.addColorStop(meter_f, 'rgb(255, 150, 0)');
+	grd.addColorStop(1, 'green');
+	ctx.fillStyle = grd;
+	ctx.fillRect(0, meter_margin, meter_width, meter_hscale);
+
+	ctx.fillStyle = getComputedStyle(document.body)['background-color'];
+	ctx.fillRect(0, 0, meter_width, meter_margin);
+	ctx.fillRect(0, meter_margin + meter_hscale, meter_width, meter_margin);
+}
+
+function rescaleToMeter(x)
+{
+	var r = meter_f + x * (1 - meter_f);
+	r = Math.max(r, 0);
+	r = Math.min(r, 1);
+	return meter_line / 2 + r * (meter_width - meter_line);
+}
+
+function showMeterResultRect(left, right)
+{
+	var l = rescaleToMeter(left);
+	var r = rescaleToMeter(right);
+	var ctx = meter.getContext('2d');
+	ctx.strokeStyle = 'white';
+	ctx.lineWidth = meter_line;
+	ctx.strokeRect(l, meter_line, (r - l), meter_height - 2 * meter_line);
+}
+
+function showMeterResult(left, right)
+{
+	showMeterScale();
+	showMeterResultRect(left, right);
+}
+
+function initPage()
+{
+	initMeter();
+	showMeterScale();
+	showMeterResultRect(-.05, .05); // Test
+}
+
+function onFinish()
+{
+	showMeterResult(-5, 10); // Test
 }
 
 })();
