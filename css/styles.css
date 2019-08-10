@@ -11,11 +11,23 @@ body {
     outline: 0;
 }
 
-#bluetooth-btn {
-	float: right;
+.toolbox * {
+	vertical-align: middle;
 }
 
-.result {
+.toolbox div {
+	border: 0 none;
+	margin: 0;
+	height: 100%;
+}
+
+.toolbox-right {
+	float: right;
+	text-align: right;
+	width: 50%;
+}
+
+.toolbox-text {
 	color: white;
 	font-size: x-large;
 }
