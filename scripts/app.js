@@ -413,8 +413,8 @@ function showResult()
 	setResultText(msg, color);
 	showMeterResult(l, r, color);
 	if (r > 0) {
-		r = Math.ceil(r * 100);
-		l = Math.floor(l * 100);
+		r = Math.round(r * 100);
+		l = Math.round(l * 100);
 		r = Math.min(r, 100);
 		l = Math.min(l, 100);
 		l = Math.max(l, 0);
