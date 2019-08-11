@@ -73,8 +73,15 @@ body {
 }
 
 .info {
-	color: #ffffff;
 	font-size: large;
 	text-align: center;
 	margin: 2%;
+}
+
+#result-info {
+	color: #FAFAD2;
+}
+
+#more-info {
+	color: #EEE8AA;
 }
