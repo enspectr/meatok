@@ -8,6 +8,8 @@ const finish_btn  = document.getElementById("finish-btn");
 const bt_info     = document.getElementById("bluetooth-info");
 const meter       = document.getElementById("meter-canvas");
 const result      = document.getElementById("result");
+const result_info = document.getElementById("result-info");
+const more_info   = document.getElementById("more-info");
 
 const meter_h       = .3;   // aspect ratio
 const meter_width   = 1000; // virtula width
@@ -18,29 +20,49 @@ const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
 const meter_line    = 8;    // marker line in virtual units
 
+const auto_finish   = 120;  // auto finish timeout in seconds
+
 const bt_svc_id     = 0xFFE0;
 const bt_char_id    = 0xFFE1;
 
-var bt_device_ = null;
-var bt_device  = null;
-var bt_char    = null;
-
+var bt_device_       = null;
+var bt_device        = null;
+var bt_char          = null;
 var bt_first_connect = false;
 
-if (!navigator.bluetooth) {
-	document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
+var res_count        = 0;
+var res_last_time    = null;
+var res_last_tag     = null;
+var res_min          = null;
+var res_max          = null;
+var res_sum          = 0;
+var res_sum2         = 0;
+var res_finished     = false;
+
+// Initialization routine
+(() => {
+	if (!navigator.bluetooth) {
+		document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
+	}
+
+	if (navigator.share) {
+		share_btn.onclick = onShare;
+	} else {
+		share_btn.hidden = true;
+	}
+
+	connect_btn.onclick = onConnect;
+	finish_btn.onclick  = onFinish;
+
+	setInterval(timer, 5000);
+
+	initPage();
+})();
+
+function setBTInfo(msg)
+{
+	bt_info.innerHTML = msg;
 }
-
-if (navigator.share) {
-	share_btn.onclick = onShare;
-} else {
-	share_btn.hidden = true;
-}
-
-connect_btn.onclick = onConnect;
-finish_btn.onclick  = onFinish;
-
-initPage();
 
 function setResultText(msg, color)
 {
@@ -48,9 +70,14 @@ function setResultText(msg, color)
 	result.style.color = color;
 }
 
-function setBTInfo(msg)
+function setResultInfo(msg)
 {
-	bt_info.innerHTML = msg;
+	result_info.innerHTML = msg;
+}
+
+function setMoreInfo(msg)
+{
+	more_info.innerHTML = msg;
 }
 
 function disconnectBT()
@@ -176,8 +203,7 @@ function onValueChanged(event) {
 			break;
 		msg += String.fromCharCode(c);
 	}
-    console.log("New value: " + msg);
-    setBTInfo(msg); // Debug
+    processMessage(msg);
 }
 
 function initMeter()
@@ -243,9 +269,83 @@ function initPage()
 	setResultText(meatok.msgs.connect_to_start, 'white');
 }
 
+function updateMoreInfo()
+{
+	if (!res_last_time) {
+		setMoreInfo('');
+	} else {
+		var str = meatok.msgs.last_updated + ' ' + res_last_time.toLocaleTimeString();
+		setMoreInfo(str);
+	}
+}
+
+function updateResultInfo()
+{
+	if (!res_count) {
+		setResultInfo('');
+		return;
+	}
+	var str = meatok.msgs.samples + ': ' + String(res_count);
+	str += ', ' + (res_finished ? meatok.msgs.finished : meatok.msgs.add_more_samples);
+	setResultInfo(str);
+}
+
+function finishResults()
+{
+	res_finished = true;
+	updateResultInfo();
+}
+
 function onFinish()
 {
-	showMeterResult(-.05, .05, 'white'); // Test
+	if (res_count && !res_finished) {
+		finishResults();
+	}
+}
+
+function timer()
+{
+	if (res_last_time && !res_finished && new Date() - res_last_time > 1000 * auto_finish) {
+		finishResults();
+	}
+}
+
+function processResultValue(val)
+{
+
+}
+
+function processResult(msg)
+{
+	console.log('processResult: ' + msg);
+	var s = msg.split(' ');
+	if (s.length < 2) {
+		console.log('result string is invalid');
+		return;
+	}
+	if (s[0] == res_last_tag) {
+		console.log('duplicate, ignored');
+		return;
+	}
+	var val = parseInt(s[1]);
+	if (isNaN(val)) {
+		console.log('result value is invalid');
+		return;
+	}
+	res_last_tag = s[0];
+	processResultValue(val);
+	setBTInfo(s[1]);
+}
+
+function processMessage(msg)
+{
+	switch (msg[0]) {
+	case '#':
+		processResult(msg.slice(1));
+		break;
+	default:
+		console.log('unhandled message:', msg);
+	}
 }
 
 })();
