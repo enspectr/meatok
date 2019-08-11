@@ -57,11 +57,11 @@ body {
 }
 
 #label-frozen {
-	color: #8080ff;
+	color: #00BFFF;
 }
 
 #label-fresh {
-	color: #20ff20;
+	color: #90EE90;
 	float: right;
 }
 
