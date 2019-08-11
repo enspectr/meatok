@@ -286,7 +286,7 @@ function updateResultInfo()
 		return;
 	}
 	var str = meatok.msgs.samples + ': ' + String(res_count);
-	str += ', ' + (res_finished ? meatok.msgs.finished : meatok.msgs.add_more_samples);
+	str += ', ' + (res_finished ? meatok.msgs.finished : meatok.msgs.add_more);
 	setResultInfo(str);
 }
 
