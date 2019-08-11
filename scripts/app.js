@@ -31,13 +31,13 @@ var bt_char          = null;
 var bt_first_connect = false;
 
 var res_count        = 0;
-var res_last_time    = null;
-var res_last_tag     = null;
 var res_min          = null;
 var res_max          = null;
 var res_sum          = 0;
 var res_sum2         = 0;
 var res_finished     = false;
+var res_last_time    = null;
+var res_last_tag     = null;
 
 // Initialization routine
 (() => {
@@ -310,9 +310,28 @@ function timer()
 	}
 }
 
+function clearResults()
+{
+	res_count = 0;
+	res_min   = null;
+	res_max   = null;
+	res_sum   = 0;
+	res_sum2  = 0; 
+}
+
 function processResultValue(val)
 {
+	if (res_finished) {
+		clearResults();
+		res_finished = false;
+	}
+	res_count++;
+	// TBD
+}
 
+function showResult()
+{
+	setResultText('TBD', 'white');
 }
 
 function processResult(msg)
@@ -333,7 +352,11 @@ function processResult(msg)
 		return;
 	}
 	res_last_tag = s[0];
+	res_last_time = new Date();
 	processResultValue(val);
+	showResult();
+	updateResultInfo();
+	updateMoreInfo();
 	setBTInfo(s[1]);
 }
 
