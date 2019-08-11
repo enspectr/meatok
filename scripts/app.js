@@ -261,7 +261,7 @@ function showMeterScale()
 {
 	var ctx = meter.getContext('2d');
 	var grd = ctx.createLinearGradient(0, 0, meter_width, 0);
-	grd.addColorStop(0,       'rgb(32, 32, 255)');
+	grd.addColorStop(0,       'rgb(48, 48, 255)');
 	grd.addColorStop(meter_f, 'rgb(255, 160, 0)');
 	grd.addColorStop(1,       'rgb(32, 255, 32)');
 	ctx.fillStyle = grd;
