@@ -63,11 +63,17 @@ body {
 	float: right;
 }
 
-#result {
-	font-size: x-large;
+.result {
 	text-align: center;
-	margin-left: 2%;
-	margin-right: 2%;
+	margin: 2%;
+}
+
+#result-value {
+	font-size: xx-large;
+}
+
+#result-text {
+	font-size: x-large;
 	margin-top: 4%;
 	margin-bottom: 4%;
 }

@@ -10,7 +10,8 @@ const connect_btn = document.getElementById("bluetooth-btn");
 const finish_btn  = document.getElementById("finish-btn");
 const bt_info     = document.getElementById("bluetooth-info");
 const meter       = document.getElementById("meter-canvas");
-const result      = document.getElementById("result");
+const result_val  = document.getElementById("result-value");
+const result_text = document.getElementById("result-text");
 const result_info = document.getElementById("result-info");
 const more_info   = document.getElementById("more-info");
 
@@ -82,10 +83,26 @@ function setBTInfo(msg)
 	bt_info.innerHTML = msg;
 }
 
+function setResultValue(msg, color)
+{
+	result_val.innerHTML = msg;
+	result_val.style.color = color;
+}
+
 function setResultText(msg, color)
 {
-	result.innerHTML = msg;
-	result.style.color = color;
+	result_text.innerHTML = msg;
+	result_text.style.color = color;
+}
+
+function getResultValue()
+{
+	return result_val.innerHTML;
+}
+
+function getResultText()
+{
+	return result_text.innerHTML;
 }
 
 function setResultInfo(msg)
@@ -141,7 +158,13 @@ function showConnectedStatus()
 function onShare()
 {
 	console.log("onShare");
-	navigator.share({title: "MeatOk", text: "TBD"});
+	if (res_count) {
+		var msg = getResultValue();
+		if (msg)
+			msg += '\n';
+		msg += getResultText();
+		navigator.share({title: "MeatOk", text: msg});
+	}
 }
 
 function connectTo(device)
@@ -389,6 +412,19 @@ function showResult()
 	}
 	setResultText(msg, color);
 	showMeterResult(l, r, color);
+	if (r > 0) {
+		r = Math.ceil(r * 100);
+		l = Math.floor(l * 100);
+		r = Math.min(r, 100);
+		l = Math.min(l, 100);
+		l = Math.max(l, 0);
+		if (l != r)
+			setResultValue(String(l) + ' .. ' + String(r) + '%', color);
+		else
+			setResultValue(String(r) + '%', color);
+	} else {
+		setResultValue('');
+	}
 }
 
 function processResult(msg)
