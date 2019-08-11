@@ -365,7 +365,7 @@ function valToGrade(val)
 function showResult()
 {
 	var l, r, msg, color;
-	if (res_min <= grade_thresholds[0]) {
+	if (res_min <= grade_thresholds[1]) {
 		// frozen meat is treated separately
 		var max_grade = valToGrade(res_max);
 		max_grade = Math.min(max_grade, max_frozen_grade);
