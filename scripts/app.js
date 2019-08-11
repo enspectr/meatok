@@ -105,7 +105,7 @@ function connectTo(device)
 	}).
 	then((characteristic) => {
 		console.log(device.name, 'characteristic found');
-		characteristic.startNotifications().then(
+		return characteristic.startNotifications().then(
 			() => {
 				if (device === bt_device_) {
 					onBTConnected(device, characteristic);
@@ -116,11 +116,7 @@ function connectTo(device)
 	        },
 	        (err) => {
 	        	console.log('Failed to subscribe to ' + device.name + ':', err.message);
-	        	// Fatal error. Typically it means BT is not supported
-	        	if (device === bt_device_) {
-	        		bt_device_ = null;
-	        		setBTInfo('');
-	        	}
+	        	return Promise.reject(err);
 	        }
         );
 	})
