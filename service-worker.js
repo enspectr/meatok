@@ -21,6 +21,7 @@ const FILES_TO_CACHE = [
 	'images/icons/icon-bluetooth-connected.png',
 	'images/icons/icon-share.png',
 	'images/icons/icon-stop.png',
+	'images/icons/icon-battery-level.png',
 ];
 
 self.addEventListener('install', (evt) => {
