@@ -7,6 +7,7 @@ const connect_btn = document.getElementById("bluetooth-btn");
 const finish_btn  = document.getElementById("finish-btn");
 const bt_info     = document.getElementById("bluetooth-info");
 const meter       = document.getElementById("meter-canvas");
+const result      = document.getElementById("result");
 
 const meter_h       = .3;   // aspect ratio
 const meter_width   = 1000; // virtula width
@@ -24,6 +25,8 @@ var bt_device_ = null;
 var bt_device  = null;
 var bt_char    = null;
 
+var bt_first_connect = false;
+
 if (!navigator.bluetooth) {
 	document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
 }
@@ -38,6 +41,12 @@ connect_btn.onclick = onConnect;
 finish_btn.onclick  = onFinish;
 
 initPage();
+
+function setResultText(msg, color)
+{
+	result.innerHTML = msg;
+	result.style.color = color;
+}
 
 function setBTInfo(msg)
 {
@@ -68,6 +77,10 @@ function onBTConnected(device, characteristic)
 	bt_device_ = null;
 	setBTInfo(device.name);
 	showConnectedStatus();
+	if (bt_first_connect) {
+		bt_first_connect = false;
+		setResultText(meatok.msgs.connected, 'white');
+	}
 }
 
 function showDisconnectedStatus()
@@ -134,8 +147,13 @@ function onConnect()
 	}).
 	then((device) => {
 		console.log(device.name, 'selected');
-		if (device !== bt_device)
+		if (device !== bt_device) {
+			if (!bt_device) {
+				bt_first_connect = true;
+				setResultText(meatok.msgs.connecting, 'white');
+			}
 			connectTo(device);
+		}
 	})
 	.catch((err) => {console.log('No bluetooth device selected');});
 }
@@ -222,7 +240,7 @@ function initPage()
 	initMeter();
 	initMeterLabels();
 	showMeterScale();
-	showMeterResultRect(-5, 10, 'white'); // Test
+	setResultText(meatok.msgs.connect_to_start, 'white');
 }
 
 function onFinish()

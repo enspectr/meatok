@@ -62,3 +62,9 @@ body {
 	color: #20ff20;
 	float: right;
 }
+
+#result {
+	font-size: large;
+	text-align: center;
+	margin: 2%;
+}
