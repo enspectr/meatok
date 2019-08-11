@@ -2,6 +2,9 @@
 
 (() => {
 
+const bt_svc_id   = 0xFFE0;
+const bt_char_id  = 0xFFE1;
+
 const share_btn   = document.getElementById("share-btn");
 const connect_btn = document.getElementById("bluetooth-btn");
 const finish_btn  = document.getElementById("finish-btn");
@@ -23,8 +26,22 @@ const meter_line    = 8;    // marker line in virtual units
 const conn_msg_color = '#FAFAD2';
 const auto_finish    = 120;  // auto finish timeout in seconds
 
-const bt_svc_id      = 0xFFE0;
-const bt_char_id     = 0xFFE1;
+const grade_colors = [
+	"#00BFFF", // DeepSkyBlue
+	"#FFA07A", // LightSalmon
+	"#F0E68C", // Khaki
+	"#ADFF2F", // GreenYellow
+	"#90EE90", // LightGreen
+];
+
+const grade_thresholds = {
+	1: 0,
+	2: .3,
+	3: .6,
+	4: .9,
+};
+
+const max_frozen_grade = 3;
 
 var bt_device_       = null;
 var bt_device        = null;
@@ -326,13 +343,52 @@ function processResultValue(val)
 		clearResults();
 		res_finished = false;
 	}
+	val /= 100;
 	res_count++;
-	// TBD
+	if (res_min === null || val < res_min)
+		res_min = val;
+	if (res_max === null || val > res_max)
+		res_max = val;
+	res_sum  += val;
+	res_sum2 += val * val;
+}
+
+function valToGrade(val)
+{
+	for (var i = grade_colors.length - 1; i > 0; i--) {
+		if (val > grade_thresholds[i])
+			return i;
+	}
+	return 0;
 }
 
 function showResult()
 {
-	setResultText('TBD', conn_msg_color);
+	var l, r, msg, color;
+	if (res_min <= grade_thresholds[0]) {
+		// frozen meat is treated separately
+		var max_grade = valToGrade(res_max);
+		max_grade = Math.min(max_grade, max_frozen_grade);
+		l = res_min;
+		r = res_max;
+		msg = meatok.msgs.grades[max_grade];
+		if (max_grade > 0) {
+			msg += ', ' + meatok.msgs.frozen;
+		}
+		color = grade_colors[0];
+	} else {
+		var aver  = res_sum / res_count;
+		var aver2 = res_sum2 / res_count;
+		var disp  = aver2 - aver * aver;
+		var sigma = disp > 0 ? Math.sqrt(disp) : 0;
+		var grade = valToGrade(aver);
+		l = aver - sigma;
+		r = aver + sigma;
+		msg = meatok.msgs.grades[grade];
+		color = grade_colors[grade];
+	}
+	setResultText(msg, color);
+	showMeterResult(l, r, color);
 }
 
 function processResult(msg)

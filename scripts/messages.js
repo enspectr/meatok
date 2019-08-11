@@ -22,6 +22,13 @@ if (getUserLang() == 'ru') {
 		add_more: 'добавьте еще, чтобы повысить точность',
 		finished: 'завершено',
 		last_updated: 'обновлено',
+		grades: {
+			0: 'перемороженное мясо',
+			1: 'мясо низкого качества',
+			2: 'мясо среднего качества',
+			3: 'мясо хорошего качества',
+			4: 'свежее мясо',
+		},
 	};
 } else {
 	window.meatok.msgs = {
@@ -34,6 +41,13 @@ if (getUserLang() == 'ru') {
 		add_more: 'please add more to improve accuracy',
 		finished: 'finished',
 		last_updated: 'last updated',
+		grades: {
+			0: 'frozen meat',
+			1: 'low quality meat',
+			2: 'medium quality meat',
+			3: 'good quality meat',
+			4: 'fresh meat',
+		},
 	};
 }
 
