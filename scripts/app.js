@@ -405,8 +405,8 @@ function showResult()
 		var disp  = aver2 - aver * aver;
 		var sigma = disp > 0 ? Math.sqrt(disp) : 0;
 		var grade = valToGrade(aver);
-		l = aver - sigma;
-		r = aver + sigma;
+		l = Math.max(aver - sigma, res_min);
+		r = Math.min(aver + sigma, res_max);
 		msg = meatok.msgs.grades[grade];
 		color = grade_colors[grade];
 	}
