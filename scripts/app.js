@@ -215,9 +215,16 @@ function showMeterResult(left, right)
 	showMeterResultRect(left, right);
 }
 
+function initMeterLabels()
+{
+	document.getElementById('label-fresh').innerHTML  = meatok.msgs.fresh;
+	document.getElementById('label-frozen').innerHTML = meatok.msgs.frozen;
+}
+
 function initPage()
 {
 	initMeter();
+	initMeterLabels();
 	showMeterScale();
 	showMeterResultRect(-5, 10); // Test
 }

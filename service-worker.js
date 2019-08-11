@@ -9,6 +9,7 @@ const FILES_TO_CACHE = [
 	'service-worker.js',
 	'css/styles.css',
 	'scripts/app.js',
+	'scripts/messages.js',
 	'images/icons/icon-32x32.png',
 	'images/icons/icon-128x128.png',
 	'images/icons/icon-144x144.png',
