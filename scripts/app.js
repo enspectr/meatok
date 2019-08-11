@@ -20,10 +20,11 @@ const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
 const meter_line    = 8;    // marker line in virtual units
 
-const auto_finish   = 120;  // auto finish timeout in seconds
+const conn_msg_color = '#FAFAD2';
+const auto_finish    = 120;  // auto finish timeout in seconds
 
-const bt_svc_id     = 0xFFE0;
-const bt_char_id    = 0xFFE1;
+const bt_svc_id      = 0xFFE0;
+const bt_char_id     = 0xFFE1;
 
 var bt_device_       = null;
 var bt_device        = null;
@@ -106,7 +107,7 @@ function onBTConnected(device, characteristic)
 	showConnectedStatus();
 	if (bt_first_connect) {
 		bt_first_connect = false;
-		setResultText(meatok.msgs.connected, 'white');
+		setResultText(meatok.msgs.connected, conn_msg_color);
 	}
 }
 
@@ -177,7 +178,7 @@ function onConnect()
 		if (device !== bt_device) {
 			if (!bt_device) {
 				bt_first_connect = true;
-				setResultText(meatok.msgs.connecting, 'white');
+				setResultText(meatok.msgs.connecting, conn_msg_color);
 			}
 			connectTo(device);
 		}
@@ -266,7 +267,7 @@ function initPage()
 	initMeter();
 	initMeterLabels();
 	showMeterScale();
-	setResultText(meatok.msgs.connect_to_start, 'white');
+	setResultText(meatok.msgs.connect_to_start, conn_msg_color);
 }
 
 function updateMoreInfo()
@@ -331,7 +332,7 @@ function processResultValue(val)
 
 function showResult()
 {
-	setResultText('TBD', 'white');
+	setResultText('TBD', conn_msg_color);
 }
 
 function processResult(msg)
