@@ -199,20 +199,20 @@ function rescaleToMeter(x)
 	return meter_line / 2 + r * (meter_width - meter_line);
 }
 
-function showMeterResultRect(left, right)
+function showMeterResultRect(left, right, color)
 {
 	var l = rescaleToMeter(left);
 	var r = rescaleToMeter(right);
 	var ctx = meter.getContext('2d');
-	ctx.strokeStyle = 'white';
+	ctx.strokeStyle = color;
 	ctx.lineWidth = meter_line;
 	ctx.strokeRect(l, meter_line, (r - l), meter_height - 2 * meter_line);
 }
 
-function showMeterResult(left, right)
+function showMeterResult(left, right, color)
 {
 	showMeterScale();
-	showMeterResultRect(left, right);
+	showMeterResultRect(left, right, color);
 }
 
 function initMeterLabels()
@@ -226,12 +226,12 @@ function initPage()
 	initMeter();
 	initMeterLabels();
 	showMeterScale();
-	showMeterResultRect(-5, 10); // Test
+	showMeterResultRect(-5, 10, 'white'); // Test
 }
 
 function onFinish()
 {
-	showMeterResult(-.05, .05); // Test
+	showMeterResult(-.05, .05, 'white'); // Test
 }
 
 })();
