@@ -99,6 +99,26 @@ body {
 	color: #EEE8AA;
 }
 
+#file-input {
+	display: none;
+}
+
 .image {
 	width: 100%;
+}
+
+.journal-delimiter {
+	width: 100%;
+}
+
+.journal-delimiter * {
+	vertical-align: middle;
+}
+
+.delimiter-line {
+	width: 100%;
+}
+
+.delimiter-line hr {
+	border: 2px solid #EEE8AA;
 }

@@ -37,7 +37,15 @@
   <div class="info" id="result-info"></div>
   <div class="info" id="more-info"></div>
 
-  <input type="file" accept="image/*" id="file-input">
+  <table class="journal-delimiter"><tbody><tr>
+    <td class="image-capture">
+      <label for="file-input">
+        <img src="images/icons/icon-add.png"/>
+      </label>
+      <input id="file-input" type="file" accept="image/*" capture/>
+    </td>
+    <td class="delimiter-line"><hr></td>
+  </tr></tbody></table>
   <img id="output" class="image">
 
   <script>
