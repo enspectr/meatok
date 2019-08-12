@@ -504,27 +504,27 @@ function processMessage(msg)
 	}
 }
 
-function getImageURL(fileList)
+function getImageFile(fileList)
 {
 	let file = null;
 	for (let i = 0; i < fileList.length; i++) {
 		if (fileList[i].type.match(/^image\//))
-			return URL.createObjectURL(fileList[i]);
+			return fileList[i];
 	}
 	return null;
 }
 
 function journalAddImage(fileList)
 {
-	let img_url = getImageURL(fileList);
-	if (img_url === null)
+	let img = getImageFile(fileList);
+	if (img === null)
 		return;
-	j_image.src = img_url;
+	j_image.src = URL.createObjectURL(img);
 	let rec = j_record.cloneNode(true);
 	let share_btn = rec.getElementsByClassName('journal-share-btn')[0];
 	if (navigator.share) {
 		share_btn.onclick = function () {
-			navigator.share({title: "MeatOk", text: "TBD", url: img_url});
+			navigator.share({title: "MeatOk", text: "TBD", files: [img.name]});
 		};
 	} else {
 		share_btn.hidden = true;
