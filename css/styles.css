@@ -33,7 +33,7 @@ body {
 
 .toolbox-text {
 	color: #FAFAD2;
-	font-size: x-large;
+	font-size: large;
 }
 
 .alert-page {
@@ -69,17 +69,17 @@ body {
 
 .result {
 	text-align: center;
-	margin: 2%;
 }
 
 #result-value {
 	color: #FAFAD2;
-	font-size: xx-large;
+	font-size: 200%;
+	margin: 6%;
 }
 
 #result-text {
 	font-size: x-large;
-	margin-bottom: 4%;
+	margin: 4%;
 }
 
 .info {
