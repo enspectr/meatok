@@ -19,6 +19,7 @@ const journal     = document.getElementById("journal");
 const j_record    = document.getElementById("journal-record");
 const j_image     = document.getElementById("journal-image");
 const j_text      = document.getElementById("journal-info-text");
+const j_add_btn   = document.getElementById("journal-add-btn");
 const j_share_btn = document.getElementById("journal-share-btn");
 const j_file_inp  = document.getElementById("journal-file-input");
 
@@ -113,6 +114,11 @@ function getResultValue()
 function getResultText()
 {
 	return result_text.innerHTML;
+}
+
+function getResultColor()
+{
+	return result_text.style.color;
 }
 
 function setResultInfo(msg)
@@ -462,6 +468,7 @@ function processResult(msg)
 	showResult();
 	updateResultInfo();
 	updateMoreInfo();
+	journalEnable();
 	setBTInfo(s[1]);
 
 	// Process optional tail
@@ -514,11 +521,28 @@ function journalAddImage(fileList)
 	if (url === null)
 		return;
 	j_image.src = url;
+	let rec = j_record.cloneNode(true);
+	rec.hidden = false;
+	journal.insertBefore(rec, j_record);
 }
 
 function journalInit()
 {
+	j_record.hidden = true;
+	j_add_btn.hidden = true;
+	j_record.removeAttribute("id");
+	j_share_btn.removeAttribute("id");
+	j_text.removeAttribute("id");
+	j_image.removeAttribute("id");
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
 }
+
+function journalEnable()
+{
+	j_add_btn.hidden = false;
+}
+
+// Debug
+journalEnable();
 
 })();
