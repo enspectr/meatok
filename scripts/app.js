@@ -20,7 +20,6 @@ const j_record    = document.getElementById("journal-record");
 const j_image     = document.getElementById("journal-image");
 const j_text      = document.getElementById("journal-info-text");
 const j_add_btn   = document.getElementById("journal-add-btn");
-const j_share_btn = document.getElementById("journal-share-btn");
 const j_file_inp  = document.getElementById("journal-file-input");
 
 const meter_h       = .3;   // aspect ratio
@@ -517,14 +516,19 @@ function getImageURL(fileList)
 
 function journalAddImage(fileList)
 {
-	let url = getImageURL(fileList);
-	if (url === null)
+	let img_url = getImageURL(fileList);
+	if (img_url === null)
 		return;
-	j_image.src = url;
-	j_share_btn.onclick = () => {
-		navigator.share({title: "MeatOk", text: "TBD", url: url});
-	};
+	j_image.src = img_url;
 	let rec = j_record.cloneNode(true);
+	let share_btn = rec.getElementsByClassName('journal-share-btn')[0];
+	if (navigator.share) {
+		share_btn.onclick = function () {
+			navigator.share({title: "MeatOk", text: "TBD", url: img_url});
+		};
+	} else {
+		share_btn.hidden = true;
+	}
 	rec.hidden = false;
 	journal.insertBefore(rec, journal.firstChild);
 }
@@ -534,7 +538,6 @@ function journalInit()
 	j_record.hidden = true;
 	j_add_btn.hidden = true;
 	j_record.removeAttribute("id");
-	j_share_btn.removeAttribute("id");
 	j_text.removeAttribute("id");
 	j_image.removeAttribute("id");
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
