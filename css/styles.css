@@ -1,3 +1,7 @@
+.wrapper {
+	overscroll-behavior: none;
+}
+
 body {
 	background-color: #235041;
 }
