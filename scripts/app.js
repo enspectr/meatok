@@ -523,8 +523,9 @@ function journalAddImage(fileList)
 	let rec = j_record.cloneNode(true);
 	let share_btn = rec.getElementsByClassName('journal-share-btn')[0];
 	if (navigator.share) {
+		let share = {title: "MeatOk", text: "TBD", files: [img]};
 		share_btn.onclick = function () {
-			navigator.share({title: "MeatOk", text: "TBD", files: [img.name]});
+			navigator.share(share);
 		};
 	} else {
 		share_btn.hidden = true;
