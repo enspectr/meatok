@@ -524,7 +524,7 @@ function journalAddImage(fileList)
 	let img = getImageFile(fileList);
 	if (img === null)
 		return;
-	var rec_text = '[' + getResultValue() + '] ' + getResultText() + '. ' + getMoreInfo();
+	var rec_text = '[' + getResultValue() + '] ' + getResultText() + ', ' + getMoreInfo();
 	j_image.src = URL.createObjectURL(img);
 	j_text.innerHTML = rec_text;
 	j_text.style.color = getResultColor();
