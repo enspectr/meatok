@@ -83,10 +83,9 @@ function setBTInfo(msg)
 	bt_info.innerHTML = msg;
 }
 
-function setResultValue(msg, color)
+function setResultValue(msg)
 {
 	result_val.innerHTML = msg;
-	result_val.style.color = color;
 }
 
 function setResultText(msg, color)
@@ -419,9 +418,9 @@ function showResult()
 		l = Math.min(l, 100);
 		l = Math.max(l, 0);
 		if (l != r)
-			setResultValue(String(l) + ' .. ' + String(r) + '%', color);
+			setResultValue(String(l) + ' .. ' + String(r) + '%');
 		else
-			setResultValue(String(r) + '%', color);
+			setResultValue(String(r) + '%');
 	} else {
 		setResultValue('');
 	}
