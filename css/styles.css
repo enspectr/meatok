@@ -101,7 +101,7 @@ body {
 	color: #FAFAD2;
 }
 
-#file-input {
+#journal-file-input {
 	display: none;
 }
 
@@ -121,11 +121,11 @@ body {
 	vertical-align: middle;
 }
 
-.delimiter-line {
+.journal-delimiter-line {
 	width: 100%;
 }
 
-.delimiter-line hr {
+.journal-delimiter-line hr {
 	border: 2px solid #FAFAD2;
 }
 

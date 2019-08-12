@@ -15,6 +15,12 @@ const result_val  = document.getElementById("result-value");
 const result_text = document.getElementById("result-text");
 const result_info = document.getElementById("result-info");
 const more_info   = document.getElementById("more-info");
+const journal     = document.getElementById("journal");
+const j_record    = document.getElementById("journal-record");
+const j_image     = document.getElementById("journal-image");
+const j_text      = document.getElementById("journal-info-text");
+const j_share_btn = document.getElementById("journal-share-btn");
+const j_file_inp  = document.getElementById("journal-file-input");
 
 const meter_h       = .3;   // aspect ratio
 const meter_width   = 1000; // virtula width
@@ -75,7 +81,6 @@ var res_last_tag     = null;
 	finish_btn.onclick  = onFinish;
 
 	setInterval(timer, 5000);
-
 	initPage();
 })();
 
@@ -164,7 +169,7 @@ function onShare()
 {
 	console.log("onShare");
 	if (res_count) {
-		var msg = getResultValue();
+		let msg = getResultValue();
 		if (msg)
 			msg += '\n';
 		msg += getResultText();
@@ -241,9 +246,9 @@ function onDisconnection(event)
 }
 
 function onValueChanged(event) {
-	var msg = '';
-	var value = event.target.value;
-	for (var i = 0; i < value.byteLength; i++) {
+	let msg = '';
+	let value = event.target.value;
+	for (let i = 0; i < value.byteLength; i++) {
 		const c = value.getUint8(i);
 		if (c == 0)
 			break;
@@ -254,8 +259,8 @@ function onValueChanged(event) {
 
 function initMeter()
 {
-	var rect = meter.getBoundingClientRect();
-	var avail_width  = document.documentElement.clientWidth  - 2 * rect.left;
+	let rect = meter.getBoundingClientRect();
+	let avail_width  = document.documentElement.clientWidth  - 2 * rect.left;
 	meter.style.width  = avail_width;
 	meter.style.height = (meter_h * avail_width).toString() + "px";
 	meter.width = meter_width;
@@ -264,8 +269,8 @@ function initMeter()
 
 function showMeterScale()
 {
-	var ctx = meter.getContext('2d');
-	var grd = ctx.createLinearGradient(0, 0, meter_width, 0);
+	let ctx = meter.getContext('2d');
+	let grd = ctx.createLinearGradient(0, 0, meter_width, 0);
 	grd.addColorStop(0,       'rgb(48, 48, 255)');
 	grd.addColorStop(meter_f, 'rgb(255, 160, 0)');
 	grd.addColorStop(1,       'rgb(32, 255, 32)');
@@ -279,7 +284,7 @@ function showMeterScale()
 
 function rescaleToMeter(x)
 {
-	var r = meter_f + x * (1 - meter_f);
+	let r = meter_f + x * (1 - meter_f);
 	r = Math.max(r, 0);
 	r = Math.min(r, 1);
 	return meter_line / 2 + r * (meter_width - meter_line);
@@ -287,9 +292,9 @@ function rescaleToMeter(x)
 
 function showMeterResultRect(left, right, color)
 {
-	var l = rescaleToMeter(left);
-	var r = rescaleToMeter(right);
-	var ctx = meter.getContext('2d');
+	let l = rescaleToMeter(left);
+	let r = rescaleToMeter(right);
+	let ctx = meter.getContext('2d');
 	ctx.strokeStyle = color;
 	ctx.lineWidth = meter_line;
 	ctx.strokeRect(l, meter_line, (r - l), meter_height - 2 * meter_line);
@@ -313,6 +318,7 @@ function initPage()
 	initMeterLabels();
 	showMeterScale();
 	setResultText(meatok.msgs.connect_to_start, conn_msg_color);
+	journalInit();
 }
 
 function updateMoreInfo()
@@ -320,7 +326,7 @@ function updateMoreInfo()
 	if (!res_last_time) {
 		setMoreInfo('');
 	} else {
-		var str = meatok.msgs.last_updated + ' ' + res_last_time.toLocaleTimeString();
+		let str = meatok.msgs.last_updated + ' ' + res_last_time.toLocaleTimeString();
 		setMoreInfo(str);
 	}
 }
@@ -331,7 +337,7 @@ function updateResultInfo()
 		setResultInfo('');
 		return;
 	}
-	var str = meatok.msgs.samples + ': ' + String(res_count);
+	let str = meatok.msgs.samples + ': ' + String(res_count);
 	str += ', ' + (res_finished ? meatok.msgs.finished : meatok.msgs.add_more);
 	setResultInfo(str);
 }
@@ -383,7 +389,7 @@ function processResultValue(val)
 
 function valToGrade(val)
 {
-	for (var i = grade_colors.length - 1; i > 0; i--) {
+	for (let i = grade_colors.length - 1; i > 0; i--) {
 		if (val > grade_thresholds[i])
 			return i;
 	}
@@ -392,10 +398,10 @@ function valToGrade(val)
 
 function showResult()
 {
-	var l, r, msg, color;
+	let l, r, msg, color;
 	if (res_min <= grade_thresholds[1]) {
 		// frozen meat is treated separately
-		var max_grade = valToGrade(res_max);
+		let max_grade = valToGrade(res_max);
 		max_grade = Math.min(max_grade, max_frozen_grade);
 		l = res_min;
 		r = res_max;
@@ -405,11 +411,11 @@ function showResult()
 		}
 		color = grade_colors[0];
 	} else {
-		var aver  = res_sum / res_count;
-		var aver2 = res_sum2 / res_count;
-		var disp  = aver2 - aver * aver;
-		var sigma = disp > 0 ? Math.sqrt(disp) : 0;
-		var grade = valToGrade(aver);
+		let aver  = res_sum / res_count;
+		let aver2 = res_sum2 / res_count;
+		let disp  = aver2 - aver * aver;
+		let sigma = disp > 0 ? Math.sqrt(disp) : 0;
+		let grade = valToGrade(aver);
 		l = Math.max(aver - sigma, res_min);
 		r = Math.min(aver + sigma, res_max);
 		msg = meatok.msgs.grades[grade];
@@ -435,7 +441,7 @@ function showResult()
 function processResult(msg)
 {
 	console.log('processResult: ' + msg);
-	var s = msg.split(' ');
+	let s = msg.split(' ');
 	if (s.length < 2) {
 		console.log('result string is invalid');
 		return;
@@ -444,7 +450,7 @@ function processResult(msg)
 		console.log('duplicate, ignored');
 		return;
 	}
-	var val = parseInt(s[1]);
+	let val = parseInt(s[1]);
 	if (isNaN(val)) {
 		console.log('result value is invalid');
 		return;
@@ -459,14 +465,14 @@ function processResult(msg)
 	setBTInfo(s[1]);
 
 	// Process optional tail
-	for (var i = 2; i < s.length; i++) {
+	for (let i = 2; i < s.length; i++) {
 		processMessage(s[i]);
 	}
 }
 
 function processBatteryReport(msg)
 {
-	var val = parseInt(msg.slice(1));
+	let val = parseInt(msg.slice(1));
 	if (isNaN(val) || val < 0 || val > 100) {
 		console.log('battery level is invalid');
 		return;
@@ -490,6 +496,29 @@ function processMessage(msg)
 	default:
 		console.log('unhandled message:', msg);
 	}
+}
+
+function getImageURL(fileList)
+{
+	let file = null;
+	for (let i = 0; i < fileList.length; i++) {
+		if (fileList[i].type.match(/^image\//))
+			return URL.createObjectURL(fileList[i]);
+	}
+	return null;
+}
+
+function journalAddImage(fileList)
+{
+	let url = getImageURL(fileList);
+	if (url === null)
+		return;
+	j_image.src = url;
+}
+
+function journalInit()
+{
+	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
 }
 
 })();
