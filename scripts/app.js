@@ -336,7 +336,7 @@ function updateMoreInfo()
 	if (!res_last_time) {
 		setMoreInfo('');
 	} else {
-		let str = meatok.msgs.last_updated + ' ' + res_last_time.toLocaleTimeString();
+		let str = meatok.msgs.measured + ' ' + res_last_time.toLocaleTimeString();
 		setMoreInfo(str);
 	}
 }

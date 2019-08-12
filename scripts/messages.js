@@ -21,7 +21,7 @@ if (getUserLang() == 'ru') {
 		samples: 'измерений',
 		add_more: 'добавьте еще, чтобы повысить точность',
 		finished: 'завершено',
-		last_updated: 'обновлено',
+		measured: 'измерено',
 		grades: {
 			0: 'перемороженное мясо',
 			1: 'мясо низкого качества',
@@ -40,7 +40,7 @@ if (getUserLang() == 'ru') {
 		samples: 'samples',
 		add_more: 'please add more to improve accuracy',
 		finished: 'finished',
-		last_updated: 'last updated',
+		measured: 'measured',
 		grades: {
 			0: 'frozen meat',
 			1: 'low quality meat',
