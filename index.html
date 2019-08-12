@@ -15,16 +15,16 @@
     <meta name="theme-color" content="#2F3BA2"/>
   </head>
 <body>
-  <div class="toolbox">
-    <input type="image" class="toolbox-icon" id="finish-btn" src="images/icons/icon-stop.png" alt="Stop collecting results"/>
-    <input type="image" class="toolbox-icon" id="share-btn" src="images/icons/icon-share.png" alt="Share result"/>
-    <img class="toolbox-icon" src="images/icons/icon-battery-level.png" alt="Battery level"/>
-    <span class="toolbox-text" id="battery-info"></span>
-    <div class="toolbox-right">
+  <table class="toolbox"><tbody><tr>
+    <td><input type="image" class="toolbox-icon" id="finish-btn" src="images/icons/icon-stop.png" alt="Stop collecting results"/></td>
+    <td><input type="image" class="toolbox-icon" id="share-btn" src="images/icons/icon-share.png" alt="Share result"/></td>
+    <td><img class="toolbox-icon" src="images/icons/icon-battery-level.png" alt="Battery level"/></td>
+    <td><span class="toolbox-text" id="battery-info"></span></td>
+    <td class="toolbox-right">
       <span class="toolbox-text" id="bluetooth-info"></span>
       <input type="image" class="toolbox-icon" id="bluetooth-btn" src="images/icons/icon-bluetooth.png" alt="Connect"/>
-    </div>
-  </div>
+    </td>
+  </tr></tbody></table>
   <div class="result" id="result-value"></div>
   <div class="result" id="result-text"></div>
   <div id="meter">

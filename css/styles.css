@@ -6,27 +6,28 @@ body {
     outline: 0;
 }
 
+.toolbox {
+	border: 0 none;
+	margin: 0;
+	width: 100%;
+}
+
 .toolbox * {
 	vertical-align: middle;
-}
-
-.toolbox-icon {
-	border: 0 none;
-	margin: 2%;
-	width: 32px;
-	height: 32px;
-}
-
-.toolbox div {
 	border: 0 none;
 	margin: 0;
 	height: 100%;
 }
 
+.toolbox-icon {
+	margin: 2%;
+	width: 32px;
+	height: 32px;
+}
+
 .toolbox-right {
-	float: right;
 	text-align: right;
-	width: 50%;
+	width: 100%;
 }
 
 .toolbox-text {
