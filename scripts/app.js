@@ -524,13 +524,14 @@ function journalAddImage(fileList)
 	let img = getImageFile(fileList);
 	if (img === null)
 		return;
+	var rec_text = '[' + getResultValue() + '] ' + getResultText() + '. ' + getMoreInfo();
 	j_image.src = URL.createObjectURL(img);
-	j_text.innerHTML = '[' + getResultValue() + '] ' + getResultText() + '. ' + getMoreInfo();
+	j_text.innerHTML = rec_text;
 	j_text.style.color = getResultColor();
 	let rec = j_record.cloneNode(true);
 	let share_btn = rec.getElementsByClassName('journal-share-btn')[0];
 	if (navigator.share) {
-		let share = {title: "MeatOk", text: "TBD", files: [img]};
+		let share = {title: "MeatOk", text: rec_text, files: [img]};
 		share_btn.onclick = function () {
 			navigator.share(share);
 		};
