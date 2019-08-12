@@ -130,6 +130,11 @@ function setMoreInfo(msg)
 	more_info.innerHTML = msg;
 }
 
+function getMoreInfo()
+{
+	return more_info.innerHTML;
+}
+
 function disconnectBT()
 {
 	if (bt_char) {
@@ -520,6 +525,8 @@ function journalAddImage(fileList)
 	if (img === null)
 		return;
 	j_image.src = URL.createObjectURL(img);
+	j_text.innerHTML = '[' + getResultValue() + '] ' + getResultText() + '. ' + getMoreInfo();
+	j_text.style.color = getResultColor();
 	let rec = j_record.cloneNode(true);
 	let share_btn = rec.getElementsByClassName('journal-share-btn')[0];
 	if (navigator.share) {
@@ -548,8 +555,5 @@ function journalEnable()
 {
 	j_add_btn.hidden = false;
 }
-
-// Debug
-journalEnable();
 
 })();
