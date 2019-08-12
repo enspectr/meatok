@@ -25,51 +25,51 @@ const FILES_TO_CACHE = [
 ];
 
 self.addEventListener('install', (evt) => {
-  console.log('[ServiceWorker] Install');
-  // Precache static resources here
-  evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[ServiceWorker] Pre-caching offline page');
-      return cache.addAll(FILES_TO_CACHE);
-    })
-  );
-  self.skipWaiting();
+	console.log('[ServiceWorker] Install');
+	// Precache static resources here
+	evt.waitUntil(
+		caches.open(CACHE_NAME).then((cache) => {
+			console.log('[ServiceWorker] Pre-caching offline page');
+			return cache.addAll(FILES_TO_CACHE);
+		})
+	);
+	self.skipWaiting();
 });
 
 self.addEventListener('activate', (evt) => {
-  console.log('[ServiceWorker] Activate');
-  // Remove previous cached data from disk
-  evt.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(keyList.map((key) => {
-        if (key !== CACHE_NAME) {
-          console.log('[ServiceWorker] Removing old cache', key);
-          return caches.delete(key);
-        }
-      }));
-    })
-  );
-  self.clients.claim();
+	console.log('[ServiceWorker] Activate');
+	// Remove previous cached data from disk
+	evt.waitUntil(
+		caches.keys().then((keyList) => {
+			return Promise.all(keyList.map((key) => {
+				if (key !== CACHE_NAME) {
+					console.log('[ServiceWorker] Removing old cache', key);
+					return caches.delete(key);
+				}
+			}));
+		})
+	);
+	self.clients.claim();
 });
 
 self.addEventListener('fetch', (evt) => {
-  evt.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(evt.request).then(
-        (cached) => {
-          if (cached) {
-            console.log('[ServiceWorker] Fetch cached', evt.request.url);
-            fetch(evt.request).then((networkResponse) => {
-              console.log('[ServiceWorker] Updating', evt.request.url);
-              cache.put(evt.request, networkResponse);
-            });
-            return cached;
-          } else {
-            console.log('[ServiceWorker] Fetch remote', evt.request.url);
-            return fetch(evt.request);
-          }
-        }
-      );
-    })
-  );
+	evt.respondWith(
+		caches.open(CACHE_NAME).then((cache) => {
+			return cache.match(evt.request).then(
+				(cached) => {
+					if (cached) {
+						console.log('[ServiceWorker] Fetch cached', evt.request.url);
+						fetch(evt.request).then((networkResponse) => {
+							console.log('[ServiceWorker] Updating', evt.request.url);
+							cache.put(evt.request, networkResponse);
+						});
+						return cached;
+					} else {
+						console.log('[ServiceWorker] Fetch remote', evt.request.url);
+						return fetch(evt.request);
+					}
+				}
+			);
+		})
+	);
 });
