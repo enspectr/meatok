@@ -1,9 +1,7 @@
-.wrapper {
-	overscroll-behavior: none;
-}
 
 body {
 	background-color: #235041;
+	overscroll-behavior: none;
 }
 
 :focus {
