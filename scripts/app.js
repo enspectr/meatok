@@ -9,6 +9,7 @@ const share_btn   = document.getElementById("share-btn");
 const connect_btn = document.getElementById("bluetooth-btn");
 const finish_btn  = document.getElementById("finish-btn");
 const bt_info     = document.getElementById("bluetooth-info");
+const batt_info   = document.getElementById("battery-info");
 const meter       = document.getElementById("meter-canvas");
 const result_val  = document.getElementById("result-value");
 const result_text = document.getElementById("result-text");
@@ -81,6 +82,11 @@ var res_last_tag     = null;
 function setBTInfo(msg)
 {
 	bt_info.innerHTML = msg;
+}
+
+function setBattInfo(msg)
+{
+	batt_info.innerHTML = msg;
 }
 
 function setResultValue(msg)
@@ -443,6 +449,7 @@ function processResult(msg)
 		console.log('result value is invalid');
 		return;
 	}
+
 	res_last_tag = s[0];
 	res_last_time = new Date();
 	processResultValue(val);
@@ -450,6 +457,21 @@ function processResult(msg)
 	updateResultInfo();
 	updateMoreInfo();
 	setBTInfo(s[1]);
+
+	// Process optional tail
+	for (var i = 2; i < s.length; i++) {
+		processMessage(s[i]);
+	}
+}
+
+function processBatteryReport(msg)
+{
+	var val = parseInt(msg.slice(1));
+	if (isNaN(val) || val < 0 || val > 100) {
+		console.log('battery level is invalid');
+		return;
+	}
+	setBattInfo(String(val) + '%');
 }
 
 function processMessage(msg)
@@ -457,6 +479,9 @@ function processMessage(msg)
 	switch (msg[0]) {
 	case '#':
 		processResult(msg.slice(1));
+		break;
+	case 'b':
+		processBatteryReport(msg);
 		break;
 	default:
 		console.log('unhandled message:', msg);
