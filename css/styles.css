@@ -96,7 +96,7 @@ body {
 }
 
 #more-info {
-	color: #EEE8AA;
+	color: #FAFAD2;
 }
 
 #file-input {
@@ -120,5 +120,5 @@ body {
 }
 
 .delimiter-line hr {
-	border: 2px solid #EEE8AA;
+	border: 2px solid #FAFAD2;
 }
