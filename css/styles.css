@@ -74,7 +74,10 @@ body {
 #result-value {
 	color: #FAFAD2;
 	font-size: 300%;
-	margin: 6%;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 6%;
+	margin-bottom: 6%;
 }
 
 #result-text {
