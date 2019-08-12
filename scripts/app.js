@@ -523,7 +523,7 @@ function journalAddImage(fileList)
 	j_image.src = url;
 	let rec = j_record.cloneNode(true);
 	rec.hidden = false;
-	journal.insertBefore(rec, j_record);
+	journal.insertBefore(rec, journal.firstChild);
 }
 
 function journalInit()
