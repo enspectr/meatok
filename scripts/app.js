@@ -521,6 +521,9 @@ function journalAddImage(fileList)
 	if (url === null)
 		return;
 	j_image.src = url;
+	j_share_btn.onclick = () => {
+		navigator.share({title: "MeatOk", text: "TBD", url: url});
+	};
 	let rec = j_record.cloneNode(true);
 	rec.hidden = false;
 	journal.insertBefore(rec, journal.firstChild);
