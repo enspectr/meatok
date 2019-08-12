@@ -476,6 +476,10 @@ function processBatteryReport(msg)
 
 function processMessage(msg)
 {
+	if (!msg) {
+		console.log('empty message ignored');
+		return;
+	}
 	switch (msg[0]) {
 	case '#':
 		processResult(msg.slice(1));
