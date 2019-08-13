@@ -16,6 +16,7 @@ const result_text = document.getElementById("result-text");
 const result_info = document.getElementById("result-info");
 const more_info   = document.getElementById("more-info");
 const journal     = document.getElementById("journal");
+const j_hint      = document.getElementById("journal-hint");
 const j_record    = document.getElementById("journal-record");
 const j_image     = document.getElementById("journal-image");
 const j_text      = document.getElementById("journal-info-text");
@@ -548,11 +549,13 @@ function journalInit()
 	j_text.removeAttribute("id");
 	j_image.removeAttribute("id");
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
+	j_hint.innerHTML = meatok.msgs.jhint;
 }
 
 function journalEnable()
 {
 	j_file_inp.disabled = false;
+	j_hint.hidden = true;
 }
 
 })();

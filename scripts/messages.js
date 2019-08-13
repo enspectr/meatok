@@ -29,6 +29,7 @@ if (getUserLang() == 'ru') {
 			3: 'мясо хорошего качества',
 			4: 'свежее мясо',
 		},
+		jhint: 'здесь вы можете сохранять результаты с фотографиями',
 	};
 } else {
 	window.meatok.msgs = {
@@ -48,6 +49,7 @@ if (getUserLang() == 'ru') {
 			3: 'good quality meat',
 			4: 'fresh meat',
 		},
+		jhint: 'here you can save results with photo of the subject',
 	};
 }
 
