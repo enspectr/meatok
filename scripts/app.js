@@ -538,14 +538,12 @@ function journalAddImage(fileList)
 	} else {
 		share_btn.hidden = true;
 	}
-	rec.hidden = false;
+	rec.classList.remove('journal-record-template');
 	journal.insertBefore(rec, journal.firstChild);
 }
 
 function journalInit()
 {
-	j_record.hidden = true;
-	j_add_btn.hidden = true;
 	j_record.removeAttribute("id");
 	j_text.removeAttribute("id");
 	j_image.removeAttribute("id");
@@ -554,7 +552,7 @@ function journalInit()
 
 function journalEnable()
 {
-	j_add_btn.hidden = false;
+	j_file_inp.disabled = false;
 }
 
 })();

@@ -156,3 +156,7 @@ body {
 	margin-top: 2px;
 	margin-bottom: 6px;
 }
+
+.journal-record-template {
+	display: none;
+}
