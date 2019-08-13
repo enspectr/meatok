@@ -545,7 +545,10 @@ function journalAddImage(fileList)
 	let img = getImageFile(fileList);
 	if (img === null)
 		return;
-	let rec_text = '[' + getResultValue() + '] ' + getResultText();
+	let rec_text = getResultText();
+	let rec_val = getResultValue();
+	if (rec_val)
+		rec_text = '[' + rec_val + '] ' + rec_text;
 	let more_info = getMoreInfo();
 	if (more_info)
 		rec_text += ', ' + more_info;
