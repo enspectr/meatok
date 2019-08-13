@@ -81,6 +81,7 @@ var res_last_tag     = null;
 	connect_btn.onclick = onConnect;
 	finish_btn.onclick  = onFinish;
 
+	window.addEventListener("hashchange", onHashChanged);
 	setInterval(timer, 5000);
 	initPage();
 })();
@@ -134,6 +135,27 @@ function setMoreInfo(msg)
 function getMoreInfo()
 {
 	return more_info.innerHTML;
+}
+
+function onHashChanged(e)
+{
+	console.log('onHashChanged:', e);
+	let sold = e.oldURL.split('#');
+	let snew = e.newURL.split('#');
+	if (sold.length == 2 && snew.length == 2) {
+		let old_hash = parseInt(sold[1]);
+		let new_hash = parseInt(snew[1]);
+		if (new_hash < old_hash)
+			setTimeout(() => {
+				window.location = '#' + String(old_hash);
+			});
+	}
+}
+
+function pageSnapshot()
+{
+	let hash = window.location.hash ? parseInt(window.location.hash.slice(1)) : 0;
+	window.location = '#' + String(hash + 1);
 }
 
 function disconnectBT()
@@ -525,7 +547,10 @@ function journalAddImage(fileList)
 	let img = getImageFile(fileList);
 	if (img === null)
 		return;
-	var rec_text = '[' + getResultValue() + '] ' + getResultText() + ', ' + getMoreInfo();
+	let rec_text = '[' + getResultValue() + '] ' + getResultText();
+	let more_info = getMoreInfo();
+	if (more_info)
+		rec_text += ', ' + more_info;
 	j_image.src = URL.createObjectURL(img);
 	j_text.innerHTML = rec_text;
 	j_text.style.color = getResultColor();
@@ -545,6 +570,7 @@ function journalAddImage(fileList)
 	};
 	rec.classList.remove('journal-record-template');
 	journal.insertBefore(rec, journal.firstChild);
+	pageSnapshot();
 }
 
 function journalInit()
@@ -562,4 +588,5 @@ function journalEnable()
 	j_hint.hidden = true;
 }
 
+journalEnable();
 })();
