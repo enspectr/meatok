@@ -151,7 +151,7 @@ function onHashChanged(e)
 
 function blockBackwardNavigation()
 {
-	window.location.hash = '#';
+	window.location = '#conn';
 }
 
 function disconnectBT()
