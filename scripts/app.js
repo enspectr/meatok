@@ -83,6 +83,9 @@ var res_last_tag     = null;
 	connect_btn.onclick = onConnect;
 	finish_btn.onclick  = onFinish;
 
+	if (window.location.hash)
+		window.location = '';
+
 	window.addEventListener("hashchange", onHashChanged);
 	setInterval(timer, 5000);
 	initPage();
