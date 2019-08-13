@@ -35,6 +35,8 @@ const meter_line    = 8;    // marker line in virtual units
 const conn_msg_color = '#FAFAD2';
 const auto_finish    = 120;  // auto finish timeout in seconds
 
+const test_mode = new URLSearchParams(window.location.search).has('test');
+
 const grade_colors = [
 	"#00BFFF", // DeepSkyBlue
 	"#FFA07A", // LightSalmon
@@ -140,22 +142,16 @@ function getMoreInfo()
 function onHashChanged(e)
 {
 	console.log('onHashChanged:', e);
-	let sold = e.oldURL.split('#');
-	let snew = e.newURL.split('#');
-	if (sold.length == 2 && snew.length == 2) {
-		let old_hash = parseInt(sold[1]);
-		let new_hash = parseInt(snew[1]);
-		if (new_hash < old_hash)
-			setTimeout(() => {
-				window.location = '#' + String(old_hash);
-			});
+	if (e.oldURL.indexOf('#') !== -1 && e.newURL.indexOf('#') === -1) {
+		setTimeout(() => {
+			blockBackwardNavigation();
+		}, 0);
 	}
 }
 
-function pageSnapshot()
+function blockBackwardNavigation()
 {
-	let hash = window.location.hash ? parseInt(window.location.hash.slice(1)) : 0;
-	window.location = '#' + String(hash + 1);
+	window.location.hash = '#';
 }
 
 function disconnectBT()
@@ -185,6 +181,7 @@ function onBTConnected(device, characteristic)
 	if (bt_first_connect) {
 		bt_first_connect = false;
 		setResultText(meatok.msgs.connected, conn_msg_color);
+		blockBackwardNavigation();
 	}
 }
 
@@ -496,7 +493,8 @@ function processResult(msg)
 	updateResultInfo();
 	updateMoreInfo();
 	journalEnable();
-	setBTInfo(s[1]);
+	if (test_mode)
+		setBTInfo(s[1]);
 
 	// Process optional tail
 	for (let i = 2; i < s.length; i++) {
@@ -570,7 +568,6 @@ function journalAddImage(fileList)
 	};
 	rec.classList.remove('journal-record-template');
 	journal.insertBefore(rec, journal.firstChild);
-	pageSnapshot();
 }
 
 function journalInit()
@@ -580,6 +577,8 @@ function journalInit()
 	j_image.removeAttribute("id");
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
 	j_hint.innerHTML = meatok.msgs.jhint;
+	if (test_mode)
+		journalEnable();
 }
 
 function journalEnable()
@@ -588,5 +587,4 @@ function journalEnable()
 	j_hint.hidden = true;
 }
 
-journalEnable();
 })();
