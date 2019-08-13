@@ -23,6 +23,7 @@ const FILES_TO_CACHE = [
 	'images/icons/icon-stop.png',
 	'images/icons/icon-battery-level.png',
 	'images/icons/icon-add.png',
+	'images/icons/icon-delete.png',
 ];
 
 self.addEventListener('install', (evt) => {
