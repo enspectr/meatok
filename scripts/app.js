@@ -539,6 +539,10 @@ function journalAddImage(fileList)
 	} else {
 		share_btn.hidden = true;
 	}
+	let del_btn = rec.getElementsByClassName('journal-delete-btn')[0];
+	del_btn.onclick = function () {
+		rec.remove();
+	};
 	rec.classList.remove('journal-record-template');
 	journal.insertBefore(rec, journal.firstChild);
 }

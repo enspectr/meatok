@@ -105,12 +105,15 @@ body {
 	display: none;
 }
 
+.journal-image-box {
+	position: relative;
+	width: 100%;
+}
+
 .journal-image {
 	width: 100%;
-	margin-top: 2%;
-	margin-bottom: 0;
-	margin-left: 0;
-	margin-right: 0;
+	margin: 0;
+	z-index: -1;
 }
 
 .journal-delimiter {
@@ -133,23 +136,31 @@ body {
 	border: 1px solid #FAFAD2;
 }
 
-.journal-info * {
-	vertical-align: top;
+.journal-info {
+	margin: 2%
 }
 
 .journal-icon {
 	width: 24px;
 	height: 24px;
-	float: right;
-	margin-left: 2%;
-	margin-top: 1%;
+	position: absolute;
+	top: 0;
+	margin: 2%;
+}
+
+.journal-delete-btn {
+	left: 0;
+}
+
+.journal-share-btn {
+	right: 0;
 }
 
 .journal-info-text {
 	color: #FAFAD2;
 	font-size: large;
 	text-align: left;
-	margin: 1%;	
+	margin: 0;	
 }
 
 #journal-hint {
