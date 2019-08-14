@@ -49,16 +49,22 @@
 
   <div id="journal">
     <div id="journal-hint"></div>
-    <div class="journal-record journal-record-template" id="journal-record">
-      <div class="journal-info">
-        <div id="journal-info-text" class="journal-info-text">[%] Text</div>
-        <div class="journal-info-input-box" id="journal-info-input-box">
-          <input type="text" class="journal-info-input" id="journal-info-input"/>
-        </div>
-      </div>
+    <div id="journal-record" class="journal-record journal-record-template">
+      <table class="journal-info"><tbody><tr>
+        <td class="journal-info-box">
+          <div id="journal-text" class="journal-info-text">[%] Text</div>
+          <div id="journal-comment" class="journal-info-text journal-comment"></div>
+          <div id="journal-info-input-box" class="journal-info-input-box">
+            <input type="text" id="journal-info-input" class="journal-info-input"/>
+          </div>
+        </td>
+        <td>
+          <input type="image" class="journal-icon journal-comment-btn" src="images/icons/icon-comment.png" alt="Add comment"/>
+        </td>
+      </tr></tbody></table>
       <div class="journal-image-box">
-        <input type="image" class="journal-icon journal-delete-btn" src="images/icons/icon-delete.png" alt="Delete result"/>
-        <input type="image" class="journal-icon journal-share-btn" src="images/icons/icon-share.png" alt="Share result"/>
+        <input type="image" class="journal-icon journal-overlay-icon journal-delete-btn" src="images/icons/icon-delete.png" alt="Delete result"/>
+        <input type="image" class="journal-icon journal-overlay-icon journal-share-btn" src="images/icons/icon-share.png" alt="Share result"/>
         <img id="journal-image" class="journal-image"/>
       </div>
       <hr class="journal-separator"/>

@@ -19,11 +19,12 @@ const journal     = document.getElementById("journal");
 const j_hint      = document.getElementById("journal-hint");
 const j_record    = document.getElementById("journal-record");
 const j_image     = document.getElementById("journal-image");
-const j_text      = document.getElementById("journal-info-text");
+const j_text      = document.getElementById("journal-text");
 const j_add_btn   = document.getElementById("journal-add-btn");
 const j_file_inp  = document.getElementById("journal-file-input");
 const j_input_box = document.getElementById("journal-info-input-box");
 const j_input     = document.getElementById("journal-info-input");
+const j_comment   = document.getElementById("journal-comment");
 
 const meter_h       = .3;   // aspect ratio
 const meter_width   = 1000; // virtula width
@@ -545,6 +546,26 @@ function getImageFile(fileList)
 	return null;
 }
 
+function editComment(rec)
+{
+	let inp     = rec.getElementsByClassName('journal-info-input')[0];
+	let inp_box = rec.getElementsByClassName('journal-info-input-box')[0];
+	let comment = rec.getElementsByClassName('journal-comment')[0];
+	inp.value = comment.innerHTML;
+	inp_box.hidden = false;
+	inp.focus();
+}
+
+function editCommentDone(rec)
+{
+	let inp     = rec.getElementsByClassName('journal-info-input')[0];
+	let inp_box = rec.getElementsByClassName('journal-info-input-box')[0];
+	let comment = rec.getElementsByClassName('journal-comment')[0];
+	comment.innerHTML = inp.value;
+	comment.hidden = !inp.value;
+	inp_box.hidden = true;
+}
+
 function journalAddImage(fileList)
 {
 	let img = getImageFile(fileList);
@@ -559,9 +580,13 @@ function journalAddImage(fileList)
 		rec_text += ', ' + more_info;
 	j_image.src = URL.createObjectURL(img);
 	j_text.innerHTML = rec_text;
-	j_text.style.color = getResultColor();
+	j_text.style.color = j_comment.style.color = getResultColor();
+
 	let rec = j_record.cloneNode(true);
-	let share_btn = rec.getElementsByClassName('journal-share-btn')[0];
+	let share_btn   = rec.getElementsByClassName('journal-share-btn')[0];
+	let del_btn     = rec.getElementsByClassName('journal-delete-btn')[0];
+	let comment_btn = rec.getElementsByClassName('journal-comment-btn')[0];
+	let comment_inp = rec.getElementsByClassName('journal-info-input')[0];
 	if (navigator.share) {
 		let share = {title: "MeatOk", text: rec_text, files: [img]};
 		share_btn.onclick = function () {
@@ -570,10 +595,15 @@ function journalAddImage(fileList)
 	} else {
 		share_btn.hidden = true;
 	}
-	let del_btn = rec.getElementsByClassName('journal-delete-btn')[0];
 	del_btn.onclick = function () {
 		rec.remove();
 	};
+	comment_btn.onclick = function () {
+		editComment(rec);
+	};
+	comment_inp.addEventListener('focusout', () => {
+		editCommentDone(rec);
+	});
 	rec.classList.remove('journal-record-template');
 	journal.insertBefore(rec, journal.firstChild);
 }
@@ -585,8 +615,10 @@ function journalInit()
 	j_image.removeAttribute("id");
 	j_input_box.removeAttribute("id");
 	j_input.removeAttribute("id");
+	j_comment.removeAttribute("id");
 	j_input.placeholder = meatok.msgs.enter_comment;
-
+	j_input_box.hidden = true;
+	j_comment.hidden = true;
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
 	j_hint.innerHTML = meatok.msgs.jhint;
 	if (test_mode)
