@@ -83,7 +83,7 @@ var res_last_tag     = null;
 	connect_btn.onclick = onConnect;
 	finish_btn.onclick  = onFinish;
 
-	if (window.location.hash)
+	if (window.location.href.indexOf('#') !== -1)
 		window.location = '';
 
 	window.addEventListener("hashchange", onHashChanged);
@@ -147,7 +147,7 @@ function onHashChanged(e)
 	console.log('onHashChanged:', e);
 	if (e.oldURL.indexOf('#') !== -1 && e.newURL.indexOf('#') === -1) {
 		setTimeout(() => {
-			blockBackwardNavigation();
+			window.location = e.oldURL;
 		}, 0);
 	}
 }
