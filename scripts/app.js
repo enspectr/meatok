@@ -22,6 +22,8 @@ const j_image     = document.getElementById("journal-image");
 const j_text      = document.getElementById("journal-info-text");
 const j_add_btn   = document.getElementById("journal-add-btn");
 const j_file_inp  = document.getElementById("journal-file-input");
+const j_input_box = document.getElementById("journal-info-input-box");
+const j_input     = document.getElementById("journal-info-input");
 
 const meter_h       = .3;   // aspect ratio
 const meter_width   = 1000; // virtula width
@@ -581,6 +583,10 @@ function journalInit()
 	j_record.removeAttribute("id");
 	j_text.removeAttribute("id");
 	j_image.removeAttribute("id");
+	j_input_box.removeAttribute("id");
+	j_input.removeAttribute("id");
+	j_input.placeholder = meatok.msgs.enter_comment;
+
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
 	j_hint.innerHTML = meatok.msgs.jhint;
 	if (test_mode)
