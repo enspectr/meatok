@@ -9,6 +9,7 @@ const share_btn   = document.getElementById("share-btn");
 const connect_btn = document.getElementById("bluetooth-btn");
 const finish_btn  = document.getElementById("finish-btn");
 const bt_info     = document.getElementById("bluetooth-info");
+const bt_indicator= document.getElementById("connecting-indicator");
 const batt_info   = document.getElementById("battery-info");
 const meter       = document.getElementById("meter-canvas");
 const result_val  = document.getElementById("result-value");
@@ -189,6 +190,7 @@ function onBTConnected(device, characteristic)
 		setResultText(meatok.msgs.connected, conn_msg_color);
 		blockBackwardNavigation();
 	}
+	bt_indicator.classList.remove('connecting');
 }
 
 function showDisconnectedStatus()
@@ -213,13 +215,18 @@ function onShare()
 	}
 }
 
-function connectTo(device)
+function connectingBT(device)
 {
 	console.log(device.name, 'connecting ...');
-
-	disconnectBT();
 	setBTInfo(device.name);
+	bt_indicator.classList.add('connecting');
 	bt_device_ = device;
+}
+
+function connectTo(device)
+{
+	disconnectBT();
+	connectingBT(device);
 
 	device.gatt.connect().
 	then((server) => {

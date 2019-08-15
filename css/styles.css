@@ -202,3 +202,43 @@ body {
 .journal-record-template {
 	display: none;
 }
+
+#connecting-indicator {
+	width: 28px;
+	height: 12px;
+	position: relative;
+	display: inline-block;
+}
+
+#connecting-indicator:not(.connecting) {
+	display: none;
+}
+
+#connecting-indicator span {
+	position: absolute;
+	left: 0;
+	width: 12px;
+	height: 12px;
+	background: white;
+	border-radius: 999px;
+}
+
+#connecting-indicator span:nth-child(1) {
+	animation: cross-1 1.5s infinite linear;
+}
+
+#connecting-indicator span:nth-child(2) {
+	animation: cross-2 1.5s infinite linear;
+}
+
+@keyframes cross-1 {
+	0% {transform: translateX(0px); opacity: 1;}
+	50% {transform: translateX(16px); opacity: 0.5;}
+	100% {transform: translateX(0px); opacity: 1;}
+}
+
+@keyframes cross-2 {
+	0% {transform: translateX(16px); opacity: 1;}
+	50% {transform: translateX(0px); opacity: 0.5;}
+	100% {transform: translateX(16px); opacity: 1;}
+}
