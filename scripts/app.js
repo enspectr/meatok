@@ -78,7 +78,7 @@ var res_last_tag     = null;
 		document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
 	}
 
-	if (navigator.share) {
+	if (navigator.share || test_mode) {
 		share_btn.onclick = onShare;
 	} else {
 		share_btn.hidden = true;
@@ -594,7 +594,7 @@ function journalAddImage(fileList)
 	let del_btn     = rec.getElementsByClassName('journal-delete-btn')[0];
 	let comment_btn = rec.getElementsByClassName('journal-comment-btn')[0];
 	let comment_inp = rec.getElementsByClassName('journal-info-input')[0];
-	if (navigator.share) {
+	if (navigator.share || test_mode) {
 		let share = {title: "MeatOk", text: rec_text, files: [img]};
 		share_btn.onclick = function () {
 			navigator.share(share);
