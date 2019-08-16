@@ -377,7 +377,7 @@ function updateMoreInfo()
 function updateResultInfo()
 {
 	if (!res_count) {
-		setResultInfo('');
+		setResultInfo(meatok.msgs.use_dev_btn);
 		return;
 	}
 	let str = meatok.msgs.samples + ': ' + String(res_count);
@@ -393,9 +393,13 @@ function finishResults()
 
 function onNew()
 {
-	if (res_count && !res_finished) {
-		finishResults();
-	}
+	clearResults();
+	showMeterScale();
+	setResultValue('');
+	setResultText('');
+	updateResultInfo();
+	updateMoreInfo();
+	journalDisable();
 }
 
 function timer()
@@ -412,13 +416,14 @@ function clearResults()
 	res_max   = null;
 	res_sum   = 0;
 	res_sum2  = 0; 
+	res_finished = false;
+	res_last_time = null;
 }
 
 function processResultValue(val)
 {
 	if (res_finished) {
 		clearResults();
-		res_finished = false;
 	}
 	val /= 100;
 	res_count++;
@@ -630,6 +635,11 @@ function journalInit()
 	j_hint.innerHTML = meatok.msgs.jhint;
 	if (test_mode)
 		journalEnable();
+}
+
+function journalDisable()
+{
+	j_file_inp.disabled = true;
 }
 
 function journalEnable()

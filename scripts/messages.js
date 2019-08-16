@@ -20,6 +20,7 @@ if (getUserLang() == 'ru') {
 		connected: 'прибор подключен, можно начинать',
 		samples: 'измерений',
 		add_more: 'добавьте еще, чтобы повысить точность',
+		use_dev_btn: 'используйте кнопку запуска на приборе, чтобы начать измерение',
 		finished: 'завершено',
 		measured: 'измерено',
 		grades: {
@@ -41,6 +42,7 @@ if (getUserLang() == 'ru') {
 		connected: 'connected, you can start measuring',
 		samples: 'samples',
 		add_more: 'please add more to improve accuracy',
+		use_dev_btn: 'use start button on device to run measurement',
 		finished: 'finished',
 		measured: 'measured',
 		grades: {
