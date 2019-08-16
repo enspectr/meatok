@@ -36,7 +36,7 @@ const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
 const meter_line    = 8;    // marker line in virtual units
 
-const conn_msg_color = '#FAFAD2';
+const def_msg_color  = '#FAFAD2';
 const auto_finish    = 120;  // auto finish timeout in seconds
 
 const test_mode = new URLSearchParams(window.location.search).has('test');
@@ -91,6 +91,8 @@ function setResultValue(msg)
 
 function setResultText(msg, color)
 {
+	if (color === undefined)
+		color = def_msg_color;
 	result_text.innerHTML = msg;
 	result_text.style.color = color;
 }
@@ -248,7 +250,7 @@ function onConnect()
 		console.log(device.name, 'selected');
 		if (device !== bt_device) {
 			if (!bt_connected) {
-				setResultText(meatok.msgs.connecting, conn_msg_color);
+				setResultText(meatok.msgs.connecting);
 			}
 			connectTo(device);
 		}
@@ -334,7 +336,7 @@ function initMeterLabels()
 
 function unconnectedHint()
 {
-	setResultText(meatok.msgs.use_bt_icon, conn_msg_color);
+	setResultText(meatok.msgs.use_bt_icon);
 }
 
 function initPage()
@@ -347,7 +349,7 @@ function initPage()
 	initMeter();
 	initMeterLabels();
 	showMeterScale();
-	setResultText(meatok.msgs.connect_to_start, conn_msg_color);
+	setResultText(meatok.msgs.connect_to_start);
 	journalInit();
 
 	if (window.location.href.indexOf('#') !== -1)
@@ -372,7 +374,7 @@ function initConnected()
 	new_btn.onclick   = onNew;
 	share_btn.onclick = onShare;
 
-	setResultText(meatok.msgs.connected, conn_msg_color);
+	setResultText(meatok.msgs.connected);
 	blockBackwardNavigation();
 }
 
@@ -389,7 +391,7 @@ function updateMoreInfo()
 function updateResultInfo()
 {
 	if (!res_count) {
-		setResultInfo(meatok.msgs.use_dev_btn);
+		setResultInfo('');
 		return;
 	}
 	let str = meatok.msgs.samples + ': ' + String(res_count);
@@ -408,9 +410,9 @@ function onNew()
 	clearResults();
 	showMeterScale();
 	setResultValue('');
-	setResultText('');
-	updateResultInfo();
-	updateMoreInfo();
+	setResultText(meatok.msgs.use_dev_btn);
+	setResultInfo('');
+	setMoreInfo('');
 	journalDisable();
 }
 
