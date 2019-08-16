@@ -61,7 +61,7 @@ const max_frozen_grade = 3;
 var bt_device_       = null;
 var bt_device        = null;
 var bt_char          = null;
-var bt_first_connect = false;
+var bt_connected     = false;
 
 var res_count        = 0;
 var res_min          = null;
@@ -72,28 +72,7 @@ var res_finished     = false;
 var res_last_time    = null;
 var res_last_tag     = null;
 
-// Initialization routine
-(() => {
-	if (!navigator.bluetooth) {
-		document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
-	}
-
-	if (navigator.share || test_mode) {
-		share_btn.onclick = onShare;
-	} else {
-		share_btn.hidden = true;
-	}
-
-	connect_btn.onclick = onConnect;
-	new_btn.onclick  = onNew;
-
-	if (window.location.href.indexOf('#') !== -1)
-		window.location = '';
-
-	window.addEventListener("hashchange", onHashChanged);
-	setInterval(timer, 5000);
-	initPage();
-})();
+initPage();
 
 function setBTInfo(msg)
 {
@@ -185,10 +164,9 @@ function onBTConnected(device, characteristic)
 	bt_device_ = null;
 	setBTInfo(device.name);
 	showConnectedStatus();
-	if (bt_first_connect) {
-		bt_first_connect = false;
-		setResultText(meatok.msgs.connected, conn_msg_color);
-		blockBackwardNavigation();
+	if (!bt_connected) {
+		bt_connected = true;
+		initConnected();
 	}
 	bt_indicator.classList.remove('connecting');
 }
@@ -269,8 +247,7 @@ function onConnect()
 	then((device) => {
 		console.log(device.name, 'selected');
 		if (device !== bt_device) {
-			if (!bt_device) {
-				bt_first_connect = true;
+			if (!bt_connected) {
 				setResultText(meatok.msgs.connecting, conn_msg_color);
 			}
 			connectTo(device);
@@ -357,11 +334,39 @@ function initMeterLabels()
 
 function initPage()
 {
+	if (!navigator.bluetooth) {
+		document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
+		return;
+	}
+
 	initMeter();
 	initMeterLabels();
 	showMeterScale();
 	setResultText(meatok.msgs.connect_to_start, conn_msg_color);
 	journalInit();
+
+	if (window.location.href.indexOf('#') !== -1)
+		window.location = '';
+
+	window.addEventListener("hashchange", onHashChanged);
+
+	connect_btn.onclick = onConnect;
+
+	setInterval(timer, 5000);
+}
+
+function initConnected()
+{
+	new_btn.onclick  = onNew;
+
+	if (navigator.share || test_mode) {
+		share_btn.onclick = onShare;
+	} else {
+		share_btn.hidden = true;
+	}
+
+	setResultText(meatok.msgs.connected, conn_msg_color);
+	blockBackwardNavigation();
 }
 
 function updateMoreInfo()
