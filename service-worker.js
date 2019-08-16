@@ -20,7 +20,7 @@ const FILES_TO_CACHE = [
 	'images/icons/icon-bluetooth.png',
 	'images/icons/icon-bluetooth-connected.png',
 	'images/icons/icon-share.png',
-	'images/icons/icon-stop.png',
+	'images/icons/icon-new.png',
 	'images/icons/icon-battery-level.png',
 	'images/icons/icon-add.png',
 	'images/icons/icon-delete.png',

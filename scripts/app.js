@@ -7,7 +7,7 @@ const bt_char_id  = 0xFFE1;
 
 const share_btn   = document.getElementById("share-btn");
 const connect_btn = document.getElementById("bluetooth-btn");
-const finish_btn  = document.getElementById("finish-btn");
+const new_btn     = document.getElementById("new-btn");
 const bt_info     = document.getElementById("bluetooth-info");
 const bt_indicator= document.getElementById("connecting-indicator");
 const batt_info   = document.getElementById("battery-info");
@@ -85,7 +85,7 @@ var res_last_tag     = null;
 	}
 
 	connect_btn.onclick = onConnect;
-	finish_btn.onclick  = onFinish;
+	new_btn.onclick  = onNew;
 
 	if (window.location.href.indexOf('#') !== -1)
 		window.location = '';
@@ -391,7 +391,7 @@ function finishResults()
 	updateResultInfo();
 }
 
-function onFinish()
+function onNew()
 {
 	if (res_count && !res_finished) {
 		finishResults();
