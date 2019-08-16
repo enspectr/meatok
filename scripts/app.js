@@ -592,6 +592,15 @@ function editCommentDone(rec)
 	inp_box.hidden = true;
 }
 
+function onRecordShare(rec, text, img)
+{
+	let comment = rec.getElementsByClassName('journal-comment')[0];
+	if (comment.innerHTML) {
+		text += '\n' + comment.innerHTML;
+	}
+	navigator.share({title: "MeatOk", text: text, files: [img]});
+}
+
 function journalAddImage(fileList)
 {
 	let img = getImageFile(fileList);
@@ -614,9 +623,8 @@ function journalAddImage(fileList)
 	let comment_btn = rec.getElementsByClassName('journal-comment-btn')[0];
 	let comment_inp = rec.getElementsByClassName('journal-info-input')[0];
 	if (navigator.share || test_mode) {
-		let share = {title: "MeatOk", text: rec_text, files: [img]};
 		share_btn.onclick = function () {
-			navigator.share(share);
+			onRecordShare(rec, rec_text, img);
 		};
 	} else {
 		share_btn.hidden = true;
