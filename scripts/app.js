@@ -332,6 +332,11 @@ function initMeterLabels()
 	document.getElementById('label-frozen').innerHTML = meatok.msgs.frozen;
 }
 
+function unconnectedHint()
+{
+	setResultText(meatok.msgs.use_bt_icon, conn_msg_color);
+}
+
 function initPage()
 {
 	if (!navigator.bluetooth) {
@@ -351,19 +356,21 @@ function initPage()
 	window.addEventListener("hashchange", onHashChanged);
 
 	connect_btn.onclick = onConnect;
+	new_btn.onclick = unconnectedHint;
+
+	if (navigator.share || test_mode) {
+		share_btn.onclick = unconnectedHint;
+	} else {
+		share_btn.hidden = true;
+	}
 
 	setInterval(timer, 5000);
 }
 
 function initConnected()
 {
-	new_btn.onclick  = onNew;
-
-	if (navigator.share || test_mode) {
-		share_btn.onclick = onShare;
-	} else {
-		share_btn.hidden = true;
-	}
+	new_btn.onclick   = onNew;
+	share_btn.onclick = onShare;
 
 	setResultText(meatok.msgs.connected, conn_msg_color);
 	blockBackwardNavigation();
