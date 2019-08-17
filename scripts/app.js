@@ -372,6 +372,7 @@ function initConnected()
 {
 	new_btn.onclick   = onNew;
 	share_btn.onclick = onShare;
+	document.body.onclick = undefined;
 
 	setResultText(meatok.msgs.connected);
 	blockBackwardNavigation();
