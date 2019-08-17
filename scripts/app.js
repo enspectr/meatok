@@ -240,9 +240,10 @@ function connectTo(device)
 	});
 }
 
-function onConnect()
+function onConnect(event)
 {
 	console.log("onConnect");
+	event.stopPropagation();
 	navigator.bluetooth.requestDevice({
 		filters: [{services: [bt_svc_id]}],
 	}).
@@ -358,11 +359,9 @@ function initPage()
 	window.addEventListener("hashchange", onHashChanged);
 
 	connect_btn.onclick = onConnect;
-	new_btn.onclick = unconnectedHint;
+	document.body.onclick = unconnectedHint;
 
-	if (navigator.share || test_mode) {
-		share_btn.onclick = unconnectedHint;
-	} else {
+	if (!navigator.share && !test_mode) {
 		share_btn.hidden = true;
 	}
 
