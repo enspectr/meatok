@@ -115,6 +115,7 @@ body {
 	width: 100%;
 	margin: 0;
 	z-index: -1;
+	border-radius: 8px;
 }
 
 .journal-delimiter {
@@ -134,7 +135,10 @@ body {
 }
 
 .journal-separator {
-	border: 1px solid #FAFAD2;
+	border-top: 1px dashed #FAFAD2;
+	border-bottom: 0 none;
+	margin-right: 8px;
+	margin-left: 8px;
 }
 
 .journal-info {
