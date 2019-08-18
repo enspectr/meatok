@@ -35,6 +35,7 @@ const meter_v       = .1    // the vertical margins
 const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
 const meter_line    = 8;    // marker line in virtual units
+const meter_rect_opacity = .4;
 
 const def_msg_color  = '#FAFAD2';
 const auto_finish    = 120;  // auto finish timeout in seconds
@@ -317,10 +318,15 @@ function showMeterResultRect(left, right, color)
 {
 	let l = rescaleToMeter(left);
 	let r = rescaleToMeter(right);
+	let w = r - l;
+	let h = meter_height - 2 * meter_line;
 	let ctx = meter.getContext('2d');
-	ctx.strokeStyle = color;
-	ctx.lineWidth = meter_line;
-	ctx.strokeRect(l, meter_line, (r - l), meter_height - 2 * meter_line);
+	ctx.strokeStyle = ctx.fillStyle = color;
+	ctx.lineWidth   = meter_line;
+	ctx.globalAlpha = meter_rect_opacity;
+	ctx.fillRect(l, meter_line, w, h);
+	ctx.globalAlpha = 1;
+	ctx.strokeRect(l, meter_line, w, h);
 }
 
 function showMeterResult(left, right, color)
