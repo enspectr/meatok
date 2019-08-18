@@ -362,7 +362,7 @@ function pulseMsgIndicator()
 	msg_indicator.classList.remove('active');
 	setTimeout(() => {
 		msg_indicator.classList.add('active');
-	}, 0);
+	}, 500);
 }
 
 function initPage()
