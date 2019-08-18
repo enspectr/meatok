@@ -5,27 +5,28 @@
 const bt_svc_id   = 0xFFE0;
 const bt_char_id  = 0xFFE1;
 
-const share_btn   = document.getElementById("share-btn");
-const connect_btn = document.getElementById("bluetooth-btn");
-const new_btn     = document.getElementById("new-btn");
-const bt_info     = document.getElementById("bluetooth-info");
-const bt_indicator= document.getElementById("connecting-indicator");
-const batt_info   = document.getElementById("battery-info");
-const meter       = document.getElementById("meter-canvas");
-const result_val  = document.getElementById("result-value");
-const result_text = document.getElementById("result-text");
-const result_info = document.getElementById("result-info");
-const more_info   = document.getElementById("more-info");
-const journal     = document.getElementById("journal");
-const j_hint      = document.getElementById("journal-hint");
-const j_record    = document.getElementById("journal-record");
-const j_image     = document.getElementById("journal-image");
-const j_text      = document.getElementById("journal-text");
-const j_add_btn   = document.getElementById("journal-add-btn");
-const j_file_inp  = document.getElementById("journal-file-input");
-const j_input_box = document.getElementById("journal-info-input-box");
-const j_input     = document.getElementById("journal-info-input");
-const j_comment   = document.getElementById("journal-comment");
+const share_btn     = document.getElementById("share-btn");
+const connect_btn   = document.getElementById("bluetooth-btn");
+const new_btn       = document.getElementById("new-btn");
+const bt_info       = document.getElementById("bluetooth-info");
+const bt_indicator  = document.getElementById("connecting-indicator");
+const msg_indicator = document.getElementById("msg-indicator");
+const batt_info     = document.getElementById("battery-info");
+const meter         = document.getElementById("meter-canvas");
+const result_val    = document.getElementById("result-value");
+const result_text   = document.getElementById("result-text");
+const result_info   = document.getElementById("result-info");
+const more_info     = document.getElementById("more-info");
+const journal       = document.getElementById("journal");
+const j_hint        = document.getElementById("journal-hint");
+const j_record      = document.getElementById("journal-record");
+const j_image       = document.getElementById("journal-image");
+const j_text        = document.getElementById("journal-text");
+const j_add_btn     = document.getElementById("journal-add-btn");
+const j_file_inp    = document.getElementById("journal-file-input");
+const j_input_box   = document.getElementById("journal-info-input-box");
+const j_input       = document.getElementById("journal-info-input");
+const j_comment     = document.getElementById("journal-comment");
 
 const def_msg_color = '#FAFAD2';
 
@@ -41,7 +42,7 @@ const meter_line    = 8;    // marker line in virtual units
 const meter_rect_opacity = 0;
 const meter_rect_color   = undefined;
 
-const auto_finish  = 120;  // auto finish timeout in seconds
+const auto_finish = 120;  // auto finish timeout in seconds
 
 const test_mode = new URLSearchParams(window.location.search).has('test');
 
@@ -356,6 +357,14 @@ function unconnectedHint()
 	setResultText(meatok.msgs.use_bt_icon);
 }
 
+function pulseMsgIndicator()
+{
+	msg_indicator.classList.remove('active');
+	setTimeout(() => {
+		msg_indicator.classList.add('active');
+	}, 0);
+}
+
 function initPage()
 {
 	if (!navigator.bluetooth) {
@@ -541,6 +550,7 @@ function processResult(msg)
 	updateResultInfo();
 	updateMoreInfo();
 	journalEnable();
+	pulseMsgIndicator();
 	if (test_mode)
 		setBTInfo(s[1]);
 

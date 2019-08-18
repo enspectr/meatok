@@ -246,3 +246,21 @@ body {
 	50% {transform: translateX(0px); opacity: 0.5;}
 	100% {transform: translateX(16px); opacity: 1;}
 }
+
+#msg-indicator {
+	background: white;
+	border-radius: 999px;
+	display: none;
+}
+
+#msg-indicator.active {
+	display: inline-block;
+	animation: msg-indicator-pulse 3s 1 linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes msg-indicator-pulse {
+	0%   { width: 2px;  height: 2px;  opacity: 1; }
+	50%  { width: 24px; height: 24px; opacity: .8; }
+	100% { width: 32px; height: 32px; opacity: 0; }
+}
