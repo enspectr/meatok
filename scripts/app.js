@@ -27,6 +27,8 @@ const j_input_box = document.getElementById("journal-info-input-box");
 const j_input     = document.getElementById("journal-info-input");
 const j_comment   = document.getElementById("journal-comment");
 
+const def_msg_color = '#FAFAD2';
+
 const meter_h       = .3;   // aspect ratio
 const meter_width   = 1000; // virtula width
 const meter_height  = meter_width * meter_h;
@@ -36,9 +38,9 @@ const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
 const meter_line    = 8;    // marker line in virtual units
 const meter_rect_opacity = .4;
+const meter_rect_color = def_msg_color;
 
-const def_msg_color  = '#FAFAD2';
-const auto_finish    = 120;  // auto finish timeout in seconds
+const auto_finish  = 120;  // auto finish timeout in seconds
 
 const test_mode = new URLSearchParams(window.location.search).has('test');
 
@@ -321,7 +323,8 @@ function showMeterResultRect(left, right, color)
 	let w = r - l;
 	let h = meter_height - 2 * meter_line;
 	let ctx = meter.getContext('2d');
-	ctx.strokeStyle = ctx.fillStyle = color;
+	ctx.fillStyle   = color;
+	ctx.strokeStyle = meter_rect_color;
 	ctx.lineWidth   = meter_line;
 	ctx.globalAlpha = meter_rect_opacity;
 	ctx.fillRect(l, meter_line, w, h);
