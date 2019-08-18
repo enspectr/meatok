@@ -36,9 +36,10 @@ const meter_f       = .25;  // the frozen part of the scale
 const meter_v       = .1    // the vertical margins
 const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
-const meter_line    = 5;    // marker line in virtual units
-const meter_rect_opacity = .4;
-const meter_rect_color = def_msg_color;
+const meter_line    = 8;    // marker line in virtual units
+
+const meter_rect_opacity = 0;
+const meter_rect_color   = undefined;
 
 const auto_finish  = 120;  // auto finish timeout in seconds
 
@@ -324,15 +325,17 @@ function showMeterResultRect(left, right, color)
 	let h = meter_height - 2 * meter_line;
 	let ctx = meter.getContext('2d');
 	if (w) {
-		ctx.globalAlpha = meter_rect_opacity;
-		ctx.fillStyle   = color;
-		ctx.fillRect(l, meter_line, w, h);
-		ctx.lineWidth   = meter_line;
+		if (meter_rect_opacity) {
+			ctx.globalAlpha = meter_rect_opacity;
+			ctx.fillStyle   = color;
+			ctx.fillRect(l, meter_line, w, h);
+		}
+		ctx.lineWidth = meter_line;
 	} else {
-		ctx.lineWidth   = 2 * meter_line;
+		ctx.lineWidth = 2 * meter_line;
 	}
 	ctx.globalAlpha = 1;
-	ctx.strokeStyle = meter_rect_color;
+	ctx.strokeStyle = meter_rect_color ? meter_rect_color : color;
 	ctx.strokeRect(l, meter_line, w, h);
 }
 
