@@ -36,7 +36,7 @@ const meter_f       = .25;  // the frozen part of the scale
 const meter_v       = .1    // the vertical margins
 const meter_margin  = meter_v * meter_height;
 const meter_hscale  = meter_height - 2 * meter_margin;
-const meter_line    = 8;    // marker line in virtual units
+const meter_line    = 4;    // marker line in virtual units
 const meter_rect_opacity = .4;
 const meter_rect_color = def_msg_color;
 
