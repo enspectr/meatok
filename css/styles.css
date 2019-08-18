@@ -252,7 +252,7 @@ body {
 
 #msg-indicator.active {
 	display: inline-block;
-	animation: msg-indicator-pulse 3s 1 linear;
+	animation: msg-indicator-pulse 5s 1 linear;
 	animation-fill-mode: forwards;
 }
 
