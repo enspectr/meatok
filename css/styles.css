@@ -246,19 +246,20 @@ body {
 
 #msg-indicator {
 	background: white;
-	border-radius: 999px;
+	border-radius: 16px;
 	display: none;
 }
 
 #msg-indicator.active {
 	display: inline-block;
+	box-shadow: 0px 0px 2px 2px white;
 	animation: msg-indicator-pulse 5s 1 linear;
 	animation-fill-mode: forwards;
 }
 
 @keyframes msg-indicator-pulse {
-	0%   { width: 2px;  height: 2px;  opacity: 1; }
-	30%  { width: 24px; height: 24px; opacity: .8; }
-	60%  { width: 32px; height: 32px; opacity: .3; }
-	100% { width: 32px; height: 32px; opacity: 0; }
+	0%   { width: 1px;  height: 1px;  opacity: 1; }
+	30%  { width: 16px; height: 16px; opacity: .8; }
+	60%  { width: 28px; height: 28px; opacity: .3; }
+	100% { width: 28px; height: 28px; opacity: 0; }
 }
