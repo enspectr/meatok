@@ -243,10 +243,19 @@ body {
 	100% {transform: translateX(16px); opacity: 1;}
 }
 
+#msg-indicator-box {
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	display: inline-block;
+	text-align: center;
+}
+
 #msg-indicator {
 	background: white;
 	border-radius: 16px;
 	display: none;
+	vertical-align: middle;
 }
 
 #msg-indicator.active {
@@ -257,7 +266,7 @@ body {
 }
 
 @keyframes msg-indicator-pulse {
-	0%   { width: 1px;  height: 1px;  opacity: 1; }
+	0%   { width: 2px;  height: 2px;  opacity: 1; }
 	30%  { width: 16px; height: 16px; opacity: .8; }
 	60%  { width: 28px; height: 28px; opacity: .3; }
 	100% { width: 28px; height: 28px; opacity: 0; }
