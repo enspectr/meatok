@@ -243,25 +243,16 @@ body {
 	100% {transform: translateX(16px); opacity: 1;}
 }
 
-#msg-indicator-box {
-	width: 32px;
-	height: 32px;
-	line-height: 32px;
-	display: inline-block;
-	text-align: center;
-	margin-right: 4px;
-}
-
 #msg-indicator {
 	background: white;
 	border-radius: 16px;
 	display: none;
-	vertical-align: middle;
+	margin-right: 4px;
 }
 
 #msg-indicator.active {
 	display: inline-block;
-	box-shadow: 0px 0px 2px 2px white;
+	box-shadow: 0px 0px 1px 1px white;
 	animation: msg-indicator-pulse 5s 1 linear;
 	animation-fill-mode: forwards;
 }
@@ -269,6 +260,6 @@ body {
 @keyframes msg-indicator-pulse {
 	0%   { width: 2px;  height: 2px;  opacity: 1; }
 	30%  { width: 16px; height: 16px; opacity: .8; }
-	60%  { width: 28px; height: 28px; opacity: .3; }
-	100% { width: 28px; height: 28px; opacity: 0; }
+	60%  { width: 30px; height: 30px; opacity: .3; }
+	100% { width: 30px; height: 30px; opacity: 0; }
 }
