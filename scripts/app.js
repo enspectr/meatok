@@ -258,6 +258,9 @@ function onConnect(event)
 			if (!bt_connected) {
 				setResultText(meatok.msgs.connecting);
 			}
+			if (res_count && !res_finished) {
+				finishResults();
+			}
 			connectTo(device);
 		}
 	})
