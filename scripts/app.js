@@ -56,9 +56,9 @@ const grade_colors = [
 
 const grade_thresholds = {
 	1: 0,
-	2: .3,
-	3: .6,
-	4: .9,
+	2: .15,
+	3: .5,
+	4: .75,
 };
 
 const max_frozen_grade = 3;
