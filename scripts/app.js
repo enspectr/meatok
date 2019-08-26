@@ -205,11 +205,16 @@ function onShare()
 	}
 }
 
+function showConnectingIndicator()
+{
+	bt_indicator.classList.add('connecting');
+}
+
 function connectingBT(device)
 {
 	console.log(device.name, 'connecting ...');
 	setBTInfo(device.name);
-	bt_indicator.classList.add('connecting');
+	showConnectingIndicator();
 	bt_device_ = device;
 }
 
@@ -287,6 +292,7 @@ function onDisconnection(event)
 			connectTo(device);
 		} else {
 			showDisconnectedStatus();
+			showConnectingIndicator();
 			connectInteractive(device.name);
 		}
 	}
