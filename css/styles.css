@@ -2,6 +2,7 @@
 body {
 	font-family: sans-serif;
 	background-color: #235041;
+	overscroll-behavior: contain;
 	margin-left: 0;
 	margin-right: 0;
 }
