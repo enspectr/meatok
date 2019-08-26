@@ -250,7 +250,7 @@ body {
 	background: white;
 	border-radius: 16px;
 	display: none;
-	margin-right: 4px;
+	margin-right: 2px;
 }
 
 #msg-indicator.active {
@@ -263,6 +263,6 @@ body {
 @keyframes msg-indicator-pulse {
 	0%   { width: 2px;  height: 2px;  opacity: 1; }
 	30%  { width: 16px; height: 16px; opacity: .8; }
-	60%  { width: 30px; height: 30px; opacity: .3; }
-	100% { width: 30px; height: 30px; opacity: 0; }
+	60%  { width: 24px; height: 24px; opacity: .3; }
+	100% { width: 24px; height: 24px; opacity: 0; }
 }
