@@ -272,9 +272,11 @@ function onDisconnection(event)
 {
 	const device = event.target;
 	console.log(device.name + ' bluetooth device disconnected');
-	if (device === bt_device) {
-		connectTo(device);
-	}
+	setTimeout(() => {
+		if (device === bt_device) {
+			connectTo(device);
+		}
+	}, 0);
 }
 
 function onValueChanged(event) {
