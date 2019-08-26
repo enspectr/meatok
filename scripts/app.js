@@ -250,7 +250,7 @@ function connectTo(device)
 	});
 }
 
-function doConnect(devname)
+function connectInteractive(devname)
 {
 	let filters = [{services: [bt_svc_id]}];
 	if (devname) {
@@ -275,7 +275,7 @@ function onConnect(event)
 {
 	console.log("onConnect");
 	event.stopPropagation();
-	doConnect();
+	connectInteractive();
 }
 
 function onDisconnection(event)
@@ -286,7 +286,8 @@ function onDisconnection(event)
 		if (!on_iOS) {
 			connectTo(device);
 		} else {
-			doConnect(device.name);
+			showDisconnectedStatus();
+			connectInteractive(device.name);
 		}
 	}
 }
