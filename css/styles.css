@@ -41,6 +41,10 @@ body {
 	font-size: large;
 }
 
+#bluetooth-info {
+	font-size: medium;
+}
+
 .alert-page {
 	color:  #ffa0a0;
 	text-align: center;
