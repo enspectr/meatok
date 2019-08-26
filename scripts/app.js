@@ -46,6 +46,7 @@ const meter_rect_color   = undefined;
 const auto_finish = 120;  // auto finish timeout in seconds
 
 const test_mode = new URLSearchParams(window.location.search).has('test');
+const on_iOS = navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
 const grade_colors = [
 	"#00BFFF", // DeepSkyBlue
@@ -160,6 +161,9 @@ function disconnectBT()
 		bt_device.gatt.disconnect();
 		bt_device = null;
 	}
+	if (res_count && !res_finished) {
+		finishResults();
+	}
 	showDisconnectedStatus();
 }
 
@@ -246,12 +250,14 @@ function connectTo(device)
 	});
 }
 
-function onConnect(event)
+function doConnect(devname)
 {
-	console.log("onConnect");
-	event.stopPropagation();
+	let filters = [{services: [bt_svc_id]}];
+	if (devname) {
+		filters.push({name: devname});
+	}
 	navigator.bluetooth.requestDevice({
-		filters: [{services: [bt_svc_id]}],
+		filters: filters,
 	}).
 	then((device) => {
 		console.log(device.name, 'selected');
@@ -259,13 +265,17 @@ function onConnect(event)
 			if (!bt_connected) {
 				setResultText(meatok.msgs.connecting);
 			}
-			if (res_count && !res_finished) {
-				finishResults();
-			}
 			connectTo(device);
 		}
 	})
 	.catch((err) => {console.log('No bluetooth device selected');});
+}
+
+function onConnect(event)
+{
+	console.log("onConnect");
+	event.stopPropagation();
+	doConnect();
 }
 
 function onDisconnection(event)
@@ -273,7 +283,11 @@ function onDisconnection(event)
 	const device = event.target;
 	console.log(device.name + ' bluetooth device disconnected');
 	if (device === bt_device) {
-		connectTo(device);
+		if (!on_iOS) {
+			connectTo(device);
+		} else {
+			doConnect(device.name);
+		}
 	}
 }
 
@@ -674,7 +688,7 @@ function journalAddImage(fileList)
 
 function journalInit()
 {
-	if (!test_mode && navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
+	if (!test_mode && on_iOS) {
 		j_delimiter.hidden = true;
 		return;
 	}
