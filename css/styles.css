@@ -3,6 +3,8 @@ body {
 	font-family: sans-serif;
 	background-color: #235041;
 	overscroll-behavior: none;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 :focus {
