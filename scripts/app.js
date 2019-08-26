@@ -370,7 +370,7 @@ function pulseMsgIndicator()
 
 function initPage()
 {
-	if (!navigator.bluetooth) {
+	if (!navigator.bluetooth && !test_mode) {
 		document.body.innerHTML = '<div class="alert-page">The Bluetooth is not supported in this browser. Please try another one.</div>';
 		return;
 	}
