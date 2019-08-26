@@ -18,6 +18,7 @@ const result_text   = document.getElementById("result-text");
 const result_info   = document.getElementById("result-info");
 const more_info     = document.getElementById("more-info");
 const journal       = document.getElementById("journal");
+const j_delimiter   = document.getElementById("journal-delimiter");
 const j_hint        = document.getElementById("journal-hint");
 const j_record      = document.getElementById("journal-record");
 const j_image       = document.getElementById("journal-image");
@@ -673,6 +674,11 @@ function journalAddImage(fileList)
 
 function journalInit()
 {
+	if (!test_mode && navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
+		j_delimiter.hidden = true;
+		return;
+	}
+
 	j_record.removeAttribute("id");
 	j_text.removeAttribute("id");
 	j_image.removeAttribute("id");
@@ -684,6 +690,7 @@ function journalInit()
 	j_comment.hidden = true;
 	j_file_inp.addEventListener('change', (e) => journalAddImage(e.target.files));
 	j_hint.innerHTML = meatok.msgs.jhint;
+
 	if (test_mode)
 		journalEnable();
 }
