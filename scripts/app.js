@@ -156,7 +156,7 @@ function disconnectBT()
 		bt_char = null;
 	}
 	if (bt_device) {
-		console.log("Disconnecting from ", bt_device.name);
+		console.log('Disconnecting from ', bt_device.name);
 		bt_device.removeEventListener('gattserverdisconnected', onDisconnection);
 		bt_device.gatt.disconnect();
 		bt_device = null;
@@ -164,7 +164,9 @@ function disconnectBT()
 	if (res_count && !res_finished) {
 		finishResults();
 	}
+	hideConnectingIndicator();
 	showDisconnectedStatus();
+	setBTInfo('');
 }
 
 function onBTConnected(device, characteristic)
@@ -180,7 +182,7 @@ function onBTConnected(device, characteristic)
 		bt_connected = true;
 		initConnected();
 	}
-	bt_indicator.classList.remove('connecting');
+	hideConnectingIndicator();
 }
 
 function showDisconnectedStatus()
@@ -195,7 +197,7 @@ function showConnectedStatus()
 
 function onShare()
 {
-	console.log("onShare");
+	console.log('onShare');
 	if (res_count) {
 		let msg = getResultValue();
 		if (msg)
@@ -208,6 +210,11 @@ function onShare()
 function showConnectingIndicator()
 {
 	bt_indicator.classList.add('connecting');
+}
+
+function hideConnectingIndicator()
+{
+	bt_indicator.classList.remove('connecting');
 }
 
 function connectingBT(device)
@@ -277,7 +284,7 @@ function connectInteractive(devname)
 
 function onConnect(event)
 {
-	console.log("onConnect");
+	console.log('onConnect');
 	event.stopPropagation();
 	connectInteractive();
 }
