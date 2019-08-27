@@ -251,7 +251,7 @@ function connectTo(device)
 	})
 	.catch((err) => {
 		console.log('Failed to connect to ' + device.name + ':', err.message);
-		setTimeout(() => { if (device === bt_device_) connectTo(device); }, 500);
+		setTimeout(() => { if (device === bt_device_) reconnectTo(device); }, 500);
 	});
 }
 
@@ -261,7 +261,7 @@ function connectInteractive(devname)
 	if (devname) {
 		filters.push({name: devname});
 	}
-	navigator.bluetooth.requestDevice({
+	return navigator.bluetooth.requestDevice({
 		filters: filters,
 	}).
 	then((device) => {
@@ -272,8 +272,7 @@ function connectInteractive(devname)
 			}
 			connectTo(device);
 		}
-	})
-	.catch((err) => {console.log('No bluetooth device selected');});
+	});
 }
 
 function onConnect(event)
@@ -283,18 +282,28 @@ function onConnect(event)
 	connectInteractive();
 }
 
+function reconnectTo(device)
+{
+	if (!on_iOS) {
+		connectTo(device);
+	} else {
+		// We need use involvement for reconnect
+		showDisconnectedStatus();
+		showConnectingIndicator();
+		connectInteractive(device.name)
+		.catch((err) => {
+			if (device == bt_device)
+				disconnectBT();
+		});
+	}
+}
+
 function onDisconnection(event)
 {
 	const device = event.target;
 	console.log(device.name + ' bluetooth device disconnected');
 	if (device === bt_device) {
-		if (!on_iOS) {
-			connectTo(device);
-		} else {
-			showDisconnectedStatus();
-			showConnectingIndicator();
-			connectInteractive(device.name);
-		}
+		reconnectTo(device);
 	}
 }
 
