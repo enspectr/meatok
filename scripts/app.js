@@ -289,7 +289,10 @@ function onConnect(event)
 {
 	console.log('onConnect');
 	event.stopPropagation();
-	connectInteractive();
+	connectInteractive()
+	.catch((err) => {
+		console.log('BT device selection cancelled');
+	});
 }
 
 function reconnectTo(device)
