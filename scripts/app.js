@@ -176,13 +176,16 @@ function onBTConnected(device, characteristic)
 	bt_char = characteristic;
 	bt_device = device;
 	bt_device_ = null;
-	setBTInfo(device.name);
-	showConnectedStatus();
 	if (!bt_connected) {
 		bt_connected = true;
 		initConnected();
 	}
+	setBTInfo(device.name);
+	showConnectedStatus();
 	hideConnectingIndicator();
+	if (!res_count) {
+		setResultText(meatok.msgs.connected);
+	}
 }
 
 function showDisconnectedStatus()
@@ -274,7 +277,7 @@ function connectInteractive(devname)
 	then((device) => {
 		console.log(device.name, 'selected');
 		if (device !== bt_device) {
-			if (!bt_connected) {
+			if (!res_count) {
 				setResultText(meatok.msgs.connecting);
 			}
 			connectTo(device);
@@ -291,6 +294,9 @@ function onConnect(event)
 
 function reconnectTo(device)
 {
+	if (!res_count) {
+		setResultText(meatok.msgs.connecting);
+	}
 	if (!on_iOS) {
 		connectTo(device);
 	} else {
@@ -299,8 +305,11 @@ function reconnectTo(device)
 		showConnectingIndicator();
 		connectInteractive(device.name)
 		.catch((err) => {
-			if (device == bt_device)
+			if (device == bt_device) {
 				disconnectBT();
+				if (!res_count)
+					setResultText(meatok.msgs.connect_to_start);
+			}
 		});
 	}
 }
@@ -416,7 +425,6 @@ function initPage()
 	initMeter();
 	initMeterLabels();
 	showMeterScale();
-	setResultText(meatok.msgs.connect_to_start);
 	journalInit();
 
 	if (window.location.href.indexOf('#') !== -1)
@@ -432,6 +440,8 @@ function initPage()
 	}
 
 	setInterval(timer, 5000);
+
+	setResultText(meatok.msgs.connect_to_start);
 }
 
 function initConnected()
@@ -439,8 +449,6 @@ function initConnected()
 	new_btn.onclick   = onNew;
 	share_btn.onclick = onShare;
 	document.body.onclick = undefined;
-
-	setResultText(meatok.msgs.connected);
 	blockBackwardNavigation();
 }
 
@@ -476,10 +484,11 @@ function onNew()
 	clearResults();
 	showMeterScale();
 	setResultValue('');
-	setResultText(meatok.msgs.use_dev_btn);
 	setResultInfo('');
 	setMoreInfo('');
 	journalDisable();
+
+	setResultText(meatok.msgs.use_dev_btn);
 }
 
 function timer()
