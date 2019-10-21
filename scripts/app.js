@@ -538,41 +538,26 @@ function valToGrade(val)
 
 function showResult()
 {
-	let l, r, msg, color;
+	let msg, color;
+	let max_grade = valToGrade(res_max);
 	if (res_min <= grade_thresholds[1]) {
 		// frozen meat is treated separately
-		let max_grade = valToGrade(res_max);
 		max_grade = Math.min(max_grade, max_frozen_grade);
-		l = res_min;
-		r = res_max;
 		msg = meatok.msgs.grades[max_grade];
 		if (max_grade > 0) {
 			msg += ', ' + meatok.msgs.frozen;
 		}
 		color = grade_colors[0];
 	} else {
-		let aver  = res_sum / res_count;
-		let aver2 = res_sum2 / res_count;
-		let disp  = aver2 - aver * aver;
-		let sigma = disp > 0 ? Math.sqrt(disp) : 0;
-		let grade = valToGrade(aver);
-		l = Math.max(aver - sigma, res_min);
-		r = Math.min(aver + sigma, res_max);
-		msg = meatok.msgs.grades[grade];
-		color = grade_colors[grade];
+		msg = meatok.msgs.grades[max_grade];
+		color = grade_colors[max_grade];
 	}
 	setResultText(msg, color);
-	showMeterResult(l, r, color);
-	if (r > 0) {
-		r = Math.round(r * 100);
-		l = Math.round(l * 100);
-		r = Math.min(r, 100);
-		l = Math.min(l, 100);
-		l = Math.max(l, 0);
-		if (l != r)
-			setResultValue(String(l) + ' .. ' + String(r) + '%');
-		else
-			setResultValue(String(r) + '%');
+	showMeterResult(res_min, res_max, color);
+	if (res_max > 0) {
+		let val = Math.round(res_max * 100);
+		val = Math.min(val, 100);
+		setResultValue(String(val) + '%');
 	} else {
 		setResultValue('');
 	}
