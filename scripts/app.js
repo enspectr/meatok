@@ -539,25 +539,31 @@ function valToGrade(val)
 function showResult()
 {
 	let msg, color;
-	let max_grade = valToGrade(res_max);
+	let aver  = res_sum / res_count;
+	let aver2 = res_sum2 / res_count;
+	let disp  = aver2 - aver * aver;
+	let sigma = disp > 0 ? Math.sqrt(disp) : 0;
+	let value = aver + .9 * sigma; // Let it be a kind of optimistic
+	value = Math.min(value, res_max);
+	let grade = valToGrade(value);
 	if (res_min <= grade_thresholds[1]) {
 		// frozen meat is treated separately
-		max_grade = Math.min(max_grade, max_frozen_grade);
-		msg = meatok.msgs.grades[max_grade];
-		if (max_grade > 0) {
+		grade = Math.min(grade, max_frozen_grade);
+		msg = meatok.msgs.grades[grade];
+		if (grade > 0) {
 			msg += ', ' + meatok.msgs.frozen;
 		}
 		color = grade_colors[0];
 	} else {
-		msg = meatok.msgs.grades[max_grade];
-		color = grade_colors[max_grade];
+		msg = meatok.msgs.grades[grade];
+		color = grade_colors[grade];
 	}
 	setResultText(msg, color);
 	showMeterResult(res_min, res_max, color);
-	if (res_max > 0) {
-		let val = Math.round(res_max * 100);
-		val = Math.min(val, 100);
-		setResultValue(String(val) + '%');
+	if (value > 0) {
+		let pc_val = Math.round(value * 100);
+		pc_val = Math.min(pc_val, 100);
+		setResultValue(String(pc_val) + '%');
 	} else {
 		setResultValue('');
 	}
